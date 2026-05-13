@@ -21,14 +21,24 @@ const PERKS = [
 export default function Signup() {
   const { register: authRegister } = useAuth()
   const navigate = useNavigate()
-  const { register, handleSubmit, formState: { errors } } = useForm()
+  const { register, handleSubmit, watch, formState: { errors } } = useForm({ defaultValues: { role: 'tenant' } })
   const [submitting, setSubmitting] = useState(false)
   const [showPass,   setShowPass]   = useState(false)
 
   const onSubmit = async (data) => {
     setSubmitting(true)
     try {
-      await authRegister({ username: data.username, email: data.email, password: data.password, college: data.college, role: data.role })
+      const formData = new FormData()
+      formData.append('username', data.username)
+      formData.append('email', data.email)
+      formData.append('password', data.password)
+      if (data.college) formData.append('college', data.college)
+      formData.append('role', data.role)
+      if (data.role === 'owner' && data.ownerProof?.[0]) {
+        formData.append('ownerProof', data.ownerProof[0])
+      }
+
+      await authRegister(formData)
       toast.success('Account created successfully!')
       navigate('/listings')
     } catch (err) {
@@ -142,6 +152,17 @@ export default function Signup() {
               </div>
               {errors.role && <p className="text-xs mt-1.5" style={{ color: 'var(--danger)' }}>{errors.role.message}</p>}
             </div>
+
+            {watch('role') === 'owner' && (
+              <div className="fade-in-up">
+                <label className="label" htmlFor="su-ownerProof">Owner ID / Document Proof</label>
+                <input id="su-ownerProof" type="file" accept="image/*"
+                  className={`input p-2 ${errors.ownerProof ? 'error' : ''}`}
+                  {...register('ownerProof', { required: 'Owner proof is required for verification' })} />
+                {errors.ownerProof && <p className="text-xs mt-1.5" style={{ color: 'var(--danger)' }}>{errors.ownerProof.message}</p>}
+                <p className="text-xs mt-1" style={{ color: 'var(--text-muted)' }}>Admin will verify this document.</p>
+              </div>
+            )}
 
             <div>
               <label className="label" htmlFor="su-college">College (optional, for students)</label>
