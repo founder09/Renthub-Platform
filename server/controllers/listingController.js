@@ -131,6 +131,10 @@ exports.showPrivate = async (req, res, next) => {
 /** POST /api/listings */
 exports.create = async (req, res, next) => {
   try {
+    if (req.user.role === 'owner' && !req.user.isVerified) {
+      return next(new ExpressError(403, 'Your account is pending verification by an admin. You cannot create listings yet.'));
+    }
+
     // ── Subscription gating: check listing limit ───────────────────────────
     const { canCreateListing } = require('../services/subscriptionService');
     const limitCheck = await canCreateListing(req.user._id);

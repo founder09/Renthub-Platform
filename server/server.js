@@ -22,6 +22,7 @@ const notificationRoutes     = require('./routes/notifications');
 const subscriptionRoutes     = require('./routes/subscriptions');
 const analyticsRoutes        = require('./routes/analytics');
 const aiRoutes               = require('./routes/ai');
+const adminRoutes            = require('./routes/admin');
 
 // Initialize cache (logs whether Redis or in-memory)
 require('./cache/cacheClient');
@@ -63,6 +64,7 @@ app.use('/api/notifications', notificationRoutes);
 app.use('/api/subscriptions', subscriptionRoutes);
 app.use('/api/analytics',     analyticsRoutes);
 app.use('/api/ai',            aiRoutes);
+app.use('/api/admin',         adminRoutes);
 
 // ─── 404 Handler ─────────────────────────────────────────────────────────────
 app.all('*', (req, res, next) => {
