@@ -6,20 +6,20 @@ import toast from 'react-hot-toast';
 import { useAuth } from '../context/AuthContext';
 
 const TYPE_ICONS = {
-  BOOKING_SUBMITTED:         '📩',
-  BOOKING_ACCEPTED:          '✅',
-  BOOKING_REJECTED:          '❌',
-  PAYMENT_SUCCESS:           '💰',
-  BOOKING_CANCELLED:         '🚫',
-  NEW_BOOKING_REQUEST:       '🔔',
-  PAYMENT_RECEIVED:          '💵',
+  BOOKING_SUBMITTED: '📩',
+  BOOKING_ACCEPTED: '✅',
+  BOOKING_REJECTED: '❌',
+  PAYMENT_SUCCESS: '💰',
+  BOOKING_CANCELLED: '🚫',
+  NEW_BOOKING_REQUEST: '🔔',
+  PAYMENT_RECEIVED: '💵',
   BOOKING_CANCELLED_BY_TENANT: '🚫',
-  SYSTEM_ALERT:              '⚠️',
+  SYSTEM_ALERT: '⚠️',
 };
 
 function timeAgo(dateStr) {
   const diff = Date.now() - new Date(dateStr).getTime();
-  const mins  = Math.floor(diff / 60000);
+  const mins = Math.floor(diff / 60000);
   if (mins < 1) return 'just now';
   if (mins < 60) return `${mins}m ago`;
   const hrs = Math.floor(mins / 60);
@@ -29,10 +29,10 @@ function timeAgo(dateStr) {
 
 export default function NotificationBell() {
   const { user } = useAuth();
-  const [open,     setOpen]     = useState(false);
-  const [notifs,   setNotifs]   = useState([]);
-  const [unread,   setUnread]   = useState(0);
-  const [loading,  setLoading]  = useState(false);
+  const [open, setOpen] = useState(false);
+  const [notifs, setNotifs] = useState([]);
+  const [unread, setUnread] = useState(0);
+  const [loading, setLoading] = useState(false);
   const dropRef = useRef(null);
 
   // Close on outside click

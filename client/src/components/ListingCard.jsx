@@ -13,22 +13,22 @@ export const COLLEGES = [
 ]
 
 export const TYPE_META = {
-  Room:   { icon: <Home      size={11} />, label: 'Room',   color: '#6366f1', bg: 'rgba(99,102,241,0.12)',   border: 'rgba(99,102,241,0.25)'  },
-  PG:     { icon: <Layers    size={11} />, label: 'PG',     color: '#0891b2', bg: 'rgba(8,145,178,0.12)',    border: 'rgba(8,145,178,0.25)'   },
-  Flat:   { icon: <Building2 size={11} />, label: 'Flat',   color: '#d97706', bg: 'rgba(217,119,6,0.12)',    border: 'rgba(217,119,6,0.25)'   },
-  Hostel: { icon: <School    size={11} />, label: 'Hostel', color: '#059669', bg: 'rgba(5,150,105,0.12)',    border: 'rgba(5,150,105,0.25)'   },
-  Studio: { icon: <Palette   size={11} />, label: 'Studio', color: '#7c3aed', bg: 'rgba(124,58,237,0.12)',   border: 'rgba(124,58,237,0.25)'  },
+  Room: { icon: <Home size={11} />, label: 'Room', color: '#6366f1', bg: 'rgba(99,102,241,0.12)', border: 'rgba(99,102,241,0.25)' },
+  PG: { icon: <Layers size={11} />, label: 'PG', color: '#0891b2', bg: 'rgba(8,145,178,0.12)', border: 'rgba(8,145,178,0.25)' },
+  Flat: { icon: <Building2 size={11} />, label: 'Flat', color: '#d97706', bg: 'rgba(217,119,6,0.12)', border: 'rgba(217,119,6,0.25)' },
+  Hostel: { icon: <School size={11} />, label: 'Hostel', color: '#059669', bg: 'rgba(5,150,105,0.12)', border: 'rgba(5,150,105,0.25)' },
+  Studio: { icon: <Palette size={11} />, label: 'Studio', color: '#7c3aed', bg: 'rgba(124,58,237,0.12)', border: 'rgba(124,58,237,0.25)' },
 }
 
 export const AMENITY_ICONS = {
-  WiFi:      <Wifi      size={12} />,
-  AC:        <Wind      size={12} />,
-  Meals:     <Utensils  size={12} />,
-  Laundry:   <Shirt     size={12} />,
-  Parking:   <Car       size={12} />,
-  Gym:       <Dumbbell  size={12} />,
-  CCTV:      <Camera    size={12} />,
-  Furnished: <Sofa      size={12} />,
+  WiFi: <Wifi size={12} />,
+  AC: <Wind size={12} />,
+  Meals: <Utensils size={12} />,
+  Laundry: <Shirt size={12} />,
+  Parking: <Car size={12} />,
+  Gym: <Dumbbell size={12} />,
+  CCTV: <Camera size={12} />,
+  Furnished: <Sofa size={12} />,
 }
 
 const FALLBACK = 'https://images.unsplash.com/photo-1555854877-bab0e564b8d5?w=600&q=80'
@@ -65,7 +65,7 @@ export default function ListingCard({ listing, savedIds = [], onToggleSave }) {
     ? (reviews.reduce((s, r) => s + (r.rating || 0), 0) / reviews.length).toFixed(1)
     : null
 
-  const isSaved  = savedIds.includes(_id)
+  const isSaved = savedIds.includes(_id)
   const typeMeta = TYPE_META[listingType] || TYPE_META.Room
 
   return (

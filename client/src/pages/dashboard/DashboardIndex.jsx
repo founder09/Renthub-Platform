@@ -10,6 +10,6 @@ export default function DashboardIndex() {
 
   if (user.role === 'owner') return <OwnerDashboard />;
   if (user.role === 'admin') return <OwnerDashboard />; // Admins see owner dashboard for now + extra tabs
-  
+
   return <TenantDashboard />;
 }

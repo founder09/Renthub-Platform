@@ -8,22 +8,22 @@ const SAMPLE_AMENITIES = ['WiFi', 'AC', 'Parking', 'Laundry', 'Gym', 'CCTV', 'Po
 
 export default function AIDescriptionGenerator({ prefill = {}, onUse }) {
   const [form, setForm] = useState({
-    title:        prefill.title        || '',
-    listingType:  prefill.listingType  || 'Room',
-    location:     prefill.location     || '',
-    nearCollege:  prefill.nearCollege  || '',
-    price:        prefill.price        || '',
-    bedrooms:     prefill.bedrooms     || 1,
-    bathrooms:    prefill.bathrooms    || 1,
-    maxGuests:    prefill.maxGuests    || 1,
-    gender:       prefill.gender       || 'Any',
-    amenities:    prefill.amenities    || [],
+    title: prefill.title || '',
+    listingType: prefill.listingType || 'Room',
+    location: prefill.location || '',
+    nearCollege: prefill.nearCollege || '',
+    price: prefill.price || '',
+    bedrooms: prefill.bedrooms || 1,
+    bathrooms: prefill.bathrooms || 1,
+    maxGuests: prefill.maxGuests || 1,
+    gender: prefill.gender || 'Any',
+    amenities: prefill.amenities || [],
     securityDeposit: prefill.securityDeposit || 0,
-    country:      'India',
+    country: 'India',
   });
-  const [result,   setResult]   = useState(null);
-  const [loading,  setLoading]  = useState(false);
-  const [copied,   setCopied]   = useState(false);
+  const [result, setResult] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [copied, setCopied] = useState(false);
 
   const toggleAmenity = (a) => {
     setForm(p => ({

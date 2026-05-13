@@ -15,7 +15,7 @@ const results = [];
 let token1 = '', token2 = '';
 let userId1 = '', userId2 = '';
 let listingId = '';
-let reviewId  = '';
+let reviewId = '';
 
 const PASS = '✅ PASS';
 const FAIL = '❌ FAIL';
@@ -27,8 +27,8 @@ function request(method, path, body = null, authToken = null) {
     const url = new URL(BASE + path);
     const options = {
       hostname: url.hostname,
-      port:     url.port || 80,
-      path:     url.pathname + url.search,
+      port: url.port || 80,
+      path: url.pathname + url.search,
       method,
       headers: { 'Content-Type': 'application/json' },
     };
@@ -69,7 +69,7 @@ async function testAuth() {
   // 1. Register User 1
   let r = await request('POST', '/api/auth/register', {
     username: 'testuser_alpha',
-    email:    'alpha@renthub.test',
+    email: 'alpha@renthub.test',
     password: 'Test@1234',
   });
   let ok = r.status === 201 && r.body.success;
@@ -80,7 +80,7 @@ async function testAuth() {
   // 2. Register duplicate
   r = await request('POST', '/api/auth/register', {
     username: 'testuser_alpha',
-    email:    'alpha@renthub.test',
+    email: 'alpha@renthub.test',
     password: 'Test@1234',
   });
   ok = r.status === 400 && !r.body.success;
@@ -96,7 +96,7 @@ async function testAuth() {
   // 4. Register User 2 (for ownership tests)
   r = await request('POST', '/api/auth/register', {
     username: 'testuser_beta',
-    email:    'beta@renthub.test',
+    email: 'beta@renthub.test',
     password: 'Test@5678',
   });
   ok = r.status === 201 && r.body.success;
@@ -190,11 +190,11 @@ async function testListings() {
 
   // 6. POST create listing — success
   r = await request('POST', '/api/listings', {
-    title:       'Beautiful Beach House',
+    title: 'Beautiful Beach House',
     description: 'A lovely beach house with ocean views.',
-    location:    'Goa',
-    country:     'India',
-    price:       3500,
+    location: 'Goa',
+    country: 'India',
+    price: 3500,
   }, token1);
   ok = r.status === 201 && r.body.success;
   record('Listings', 'POST /api/listings — create listing (authenticated)', ok, r.status,
@@ -228,11 +228,11 @@ async function testListings() {
   // 10. PUT update — by owner (token1)
   if (listingId) {
     r = await request('PUT', `/api/listings/${listingId}`, {
-      title:       'Updated Beach House',
+      title: 'Updated Beach House',
       description: 'Now with a pool!',
-      location:    'Goa',
-      country:     'India',
-      price:       4500,
+      location: 'Goa',
+      country: 'India',
+      price: 4500,
     }, token1);
     ok = r.status === 200 && r.body.data?.title === 'Updated Beach House';
     record('Listings', 'PUT /api/listings/:id — owner can update', ok, r.status,
@@ -381,7 +381,7 @@ async function cleanup() {
 
 // ─── Final Report ─────────────────────────────────────────────────────────────
 function printReport() {
-  const total  = results.length;
+  const total = results.length;
   const passed = results.filter(r => r.passed).length;
   const failed = total - passed;
 
@@ -393,7 +393,7 @@ function printReport() {
   const groups = [...new Set(results.map(r => r.group))];
   for (const group of groups) {
     const grpResults = results.filter(r => r.group === group);
-    const grpPass    = grpResults.filter(r => r.passed).length;
+    const grpPass = grpResults.filter(r => r.passed).length;
     console.log(`\n  📂 ${group}  (${grpPass}/${grpResults.length} passed)`);
     console.log(`  ${'─'.repeat(50)}`);
     for (const res of grpResults) {

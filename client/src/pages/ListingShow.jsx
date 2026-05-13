@@ -4,7 +4,7 @@ import { getListing, deleteListing } from '../api/listingsApi'
 import { useAuth } from '../context/AuthContext'
 import ReviewCard from '../components/ReviewCard'
 import ReviewForm from '../components/ReviewForm'
-import MapView    from '../components/MapView'
+import MapView from '../components/MapView'
 import LoadingSpinner from '../components/LoadingSpinner'
 import BookingModal from '../components/BookingModal'
 import { TYPE_META, AMENITY_ICONS } from '../components/ListingCard'
@@ -32,11 +32,11 @@ function AmenityPill({ label }) {
 }
 
 export default function ListingShow() {
-  const { id }      = useParams()
-  const { user }    = useAuth()
-  const navigate    = useNavigate()
-  const [listing, setListing]   = useState(null)
-  const [loading, setLoading]   = useState(true)
+  const { id } = useParams()
+  const { user } = useAuth()
+  const navigate = useNavigate()
+  const [listing, setListing] = useState(null)
+  const [loading, setLoading] = useState(true)
   const [deleting, setDeleting] = useState(false)
   const [showBooking, setShowBooking] = useState(false)
 
@@ -70,24 +70,24 @@ export default function ListingShow() {
     }
   }
 
-  const handleReviewAdded   = (r)  => setListing(p => ({ ...p, reviews: [r, ...p.reviews] }))
+  const handleReviewAdded = (r) => setListing(p => ({ ...p, reviews: [r, ...p.reviews] }))
   const handleReviewDeleted = (rid) => setListing(p => ({ ...p, reviews: p.reviews.filter(r => r._id !== rid) }))
 
   if (loading) return <LoadingSpinner />
   if (!listing) return null
 
-  const isOwner   = user && listing.owner?._id === user.id
+  const isOwner = user && listing.owner?._id === user.id
   const avgRating = listing.reviews?.length
     ? (listing.reviews.reduce((s, r) => s + r.rating, 0) / listing.reviews.length).toFixed(1)
     : null
-  const typeMeta  = TYPE_META[listing.listingType] || TYPE_META.Room
+  const typeMeta = TYPE_META[listing.listingType] || TYPE_META.Room
 
   const allImages = [
     listing.image?.url,
     ...(listing.roomImages?.map(img => img.url) || [])
   ].filter(Boolean)
   const images = allImages.length > 0 ? allImages : [FALLBACK]
-  
+
   const nextImg = () => setCurrentImg(p => (p + 1) % images.length)
   const prevImg = () => setCurrentImg(p => (p - 1 + images.length) % images.length)
 
@@ -132,10 +132,10 @@ export default function ListingShow() {
           style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
           onError={e => { e.target.src = FALLBACK }}
         />
-        
+
         {images.length > 1 && (
           <>
-            <button 
+            <button
               onClick={prevImg}
               style={{
                 position: 'absolute', top: '50%', left: 24, transform: 'translateY(-50%)',
@@ -144,9 +144,9 @@ export default function ListingShow() {
                 boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
               }}
             >
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6" /></svg>
             </button>
-            <button 
+            <button
               onClick={nextImg}
               style={{
                 position: 'absolute', top: '50%', right: 24, transform: 'translateY(-50%)',
@@ -155,10 +155,10 @@ export default function ListingShow() {
                 boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
               }}
             >
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6" /></svg>
             </button>
             <div style={{
-              position: 'absolute', bottom: 24, right: 24, background: 'rgba(0,0,0,0.6)', 
+              position: 'absolute', bottom: 24, right: 24, background: 'rgba(0,0,0,0.6)',
               color: 'white', padding: '4px 12px', borderRadius: 16, fontSize: 14, fontWeight: 500
             }}>
               {currentImg + 1} / {images.length}
@@ -315,9 +315,9 @@ export default function ListingShow() {
             </div>
 
             {/* Quick stats box */}
-            <div style={{ 
-              border: '1px solid var(--border-default)', 
-              borderRadius: 8, 
+            <div style={{
+              border: '1px solid var(--border-default)',
+              borderRadius: 8,
               marginBottom: 16,
               overflow: 'hidden'
             }}>
@@ -384,7 +384,7 @@ export default function ListingShow() {
                 </div>
               )}
             </div>
-            
+
             <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 16, fontWeight: 600, color: 'var(--text-primary)' }}>
               <span>Total due upfront</span>
               <span>₹{((listing.price || 0) + (listing.securityDeposit || 0)).toLocaleString('en-IN')}</span>

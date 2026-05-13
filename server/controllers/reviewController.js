@@ -1,5 +1,5 @@
-const Review       = require('../models/Review');
-const Listing      = require('../models/Listing');
+const Review = require('../models/Review');
+const Listing = require('../models/Listing');
 const ExpressError = require('../utils/ExpressError');
 
 /** POST /api/listings/:id/reviews */

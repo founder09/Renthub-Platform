@@ -1,12 +1,12 @@
 const Subscription = require('../models/Subscription');
-const { PLANS }    = require('../models/Subscription');
-const Razorpay     = require('razorpay');
-const crypto       = require('crypto');
-const notifSvc     = require('./notificationService');
-const cache        = require('../cache/cacheClient');
+const { PLANS } = require('../models/Subscription');
+const Razorpay = require('razorpay');
+const crypto = require('crypto');
+const notifSvc = require('./notificationService');
+const cache = require('../cache/cacheClient');
 
 const razorpay = new Razorpay({
-  key_id:     process.env.RAZORPAY_KEY_ID     || 'dummy',
+  key_id: process.env.RAZORPAY_KEY_ID || 'dummy',
   key_secret: process.env.RAZORPAY_KEY_SECRET || 'dummy',
 });
 
@@ -26,7 +26,7 @@ async function getOrCreateSubscription(userId) {
  * Get subscription with plan details (enriched).
  */
 async function getSubscriptionDetails(userId) {
-  const sub  = await getOrCreateSubscription(userId);
+  const sub = await getOrCreateSubscription(userId);
   const plan = PLANS[sub.planId] || PLANS.free;
   return { subscription: sub, plan, isActive: sub.isActive() };
 }
@@ -45,10 +45,10 @@ async function createSubscriptionOrder(userId, planId) {
   }
 
   const order = await razorpay.orders.create({
-    amount:   plan.price * 100, // paise
+    amount: plan.price * 100, // paise
     currency: 'INR',
-    receipt:  `SUB-${userId}-${planId}-${Date.now()}`,
-    notes:    { userId: userId.toString(), planId },
+    receipt: `SUB-${userId}-${planId}-${Date.now()}`,
+    notes: { userId: userId.toString(), planId },
   });
 
   // Temporarily store planId on sub for verification
@@ -63,7 +63,7 @@ async function createSubscriptionOrder(userId, planId) {
  */
 async function verifySubscriptionPayment({ razorpayOrderId, razorpayPaymentId, razorpaySignature, userId, planId }) {
   // Signature check
-  const body     = `${razorpayOrderId}|${razorpayPaymentId}`;
+  const body = `${razorpayOrderId}|${razorpayPaymentId}`;
   const expected = crypto
     .createHmac('sha256', process.env.RAZORPAY_KEY_SECRET || 'dummy')
     .update(body)
@@ -73,8 +73,8 @@ async function verifySubscriptionPayment({ razorpayOrderId, razorpayPaymentId, r
     throw { statusCode: 400, message: 'Subscription payment verification failed' };
   }
 
-  const plan  = PLANS[planId];
-  const sub   = await getOrCreateSubscription(userId);
+  const plan = PLANS[planId];
+  const sub = await getOrCreateSubscription(userId);
 
   // Calculate end date
   const now = new Date();
@@ -87,15 +87,15 @@ async function verifySubscriptionPayment({ razorpayOrderId, razorpayPaymentId, r
     endDate.setFullYear(endDate.getFullYear() + 1);
   }
 
-  sub.planId            = planId;
-  sub.status            = 'active';
-  sub.startDate         = now;
-  sub.endDate           = endDate;
-  sub.billingCycle      = plan.billingCycle;
-  sub.paymentStatus     = 'paid';
-  sub.razorpayOrderId   = razorpayOrderId;
+  sub.planId = planId;
+  sub.status = 'active';
+  sub.startDate = now;
+  sub.endDate = endDate;
+  sub.billingCycle = plan.billingCycle;
+  sub.paymentStatus = 'paid';
+  sub.razorpayOrderId = razorpayOrderId;
   sub.razorpayPaymentId = razorpayPaymentId;
-  sub.transactionId     = razorpayPaymentId;
+  sub.transactionId = razorpayPaymentId;
   await sub.save();
 
   // Clear subscription cache
@@ -105,10 +105,10 @@ async function verifySubscriptionPayment({ razorpayOrderId, razorpayPaymentId, r
   try {
     await notifSvc.createNotification({
       recipientId: userId,
-      type:        'PAYMENT_SUCCESS',
-      title:       `🎉 Welcome to ${plan.name} Plan!`,
-      message:     `Your subscription to ${plan.name} has been activated. Enjoy premium features!`,
-      actionUrl:   '/dashboard/subscription',
+      type: 'PAYMENT_SUCCESS',
+      title: `🎉 Welcome to ${plan.name} Plan!`,
+      message: `Your subscription to ${plan.name} has been activated. Enjoy premium features!`,
+      actionUrl: '/dashboard/subscription',
     });
   } catch { /* non-blocking */ }
 
@@ -119,13 +119,13 @@ async function verifySubscriptionPayment({ razorpayOrderId, razorpayPaymentId, r
  * Check if user can create a new listing (enforces free plan limit).
  */
 async function canCreateListing(userId) {
-  const sub  = await getOrCreateSubscription(userId);
+  const sub = await getOrCreateSubscription(userId);
   const plan = PLANS[sub.planId] || PLANS.free;
 
   if (plan.features.maxListings === -1) return { allowed: true };
 
   const Listing = require('../models/Listing');
-  const count   = await Listing.countDocuments({ owner: userId });
+  const count = await Listing.countDocuments({ owner: userId });
   if (count >= plan.features.maxListings) {
     return {
       allowed: false,
@@ -186,8 +186,8 @@ async function getSubscriptionStats() {
   return {
     planDistribution: byPlan,
     totalSubscribers: await Subscription.countDocuments({ status: 'active' }),
-    paidSubscribers:  await Subscription.countDocuments({ paymentStatus: 'paid' }),
-    mrrEstimate:      MRR,
+    paidSubscribers: await Subscription.countDocuments({ paymentStatus: 'paid' }),
+    mrrEstimate: MRR,
   };
 }
 

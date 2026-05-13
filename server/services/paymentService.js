@@ -1,10 +1,10 @@
 const Razorpay = require('razorpay');
-const crypto   = require('crypto');
-const Booking  = require('../models/Booking');
+const crypto = require('crypto');
+const Booking = require('../models/Booking');
 const notifSvc = require('./notificationService');
 
 const razorpay = new Razorpay({
-  key_id:     process.env.RAZORPAY_KEY_ID,
+  key_id: process.env.RAZORPAY_KEY_ID,
   key_secret: process.env.RAZORPAY_KEY_SECRET,
 });
 
@@ -25,13 +25,13 @@ async function createPaymentOrder(bookingId, tenantId) {
   }
 
   const order = await razorpay.orders.create({
-    amount:   Math.round(booking.totalAmount * 100), // Razorpay uses paise
+    amount: Math.round(booking.totalAmount * 100), // Razorpay uses paise
     currency: 'INR',
-    receipt:  booking.bookingId,
+    receipt: booking.bookingId,
     notes: {
-      bookingId:  booking.bookingId,
+      bookingId: booking.bookingId,
       propertyId: booking.propertyId._id.toString(),
-      tenantId:   tenantId.toString(),
+      tenantId: tenantId.toString(),
     },
   });
 
@@ -52,8 +52,8 @@ async function verifyPayment({ razorpayOrderId, razorpayPaymentId, razorpaySigna
   }
 
   // Signature verification (HMAC SHA256)
-  const body      = `${razorpayOrderId}|${razorpayPaymentId}`;
-  const expected  = crypto
+  const body = `${razorpayOrderId}|${razorpayPaymentId}`;
+  const expected = crypto
     .createHmac('sha256', process.env.RAZORPAY_KEY_SECRET)
     .update(body)
     .digest('hex');
@@ -63,20 +63,20 @@ async function verifyPayment({ razorpayOrderId, razorpayPaymentId, razorpaySigna
   }
 
   // Update booking
-  booking.paymentStatus      = 'paid';
-  booking.bookingStatus      = 'accepted'; // stays accepted; completed after stay
-  booking.razorpayOrderId    = razorpayOrderId;
-  booking.razorpayPaymentId  = razorpayPaymentId;
-  booking.razorpaySignature  = razorpaySignature;
-  booking.transactionId      = razorpayPaymentId;
+  booking.paymentStatus = 'paid';
+  booking.bookingStatus = 'accepted'; // stays accepted; completed after stay
+  booking.razorpayOrderId = razorpayOrderId;
+  booking.razorpayPaymentId = razorpayPaymentId;
+  booking.razorpaySignature = razorpaySignature;
+  booking.transactionId = razorpayPaymentId;
   await booking.save();
 
   // Send notifications
   await notifSvc.notifyPaymentSuccess({
     tenantId: booking.tenantId,
-    ownerId:  booking.ownerId,
+    ownerId: booking.ownerId,
     booking,
-    listing:  booking.propertyId,
+    listing: booking.propertyId,
   });
 
   return booking;

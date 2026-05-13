@@ -54,10 +54,10 @@ export default function OwnerDashboard() {
       {/* Phase 3 Feature Cards */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 12 }}>
         {[
-          { to: '/dashboard/analytics',    icon: <BarChart2 size={18} />, label: 'Analytics',      desc: 'Revenue & booking trends',    color: '#6366f1', locked: !isPro },
-          { to: '/dashboard/ai-tools',     icon: <Sparkles size={18} />,  label: 'AI Tools',        desc: 'Smart description generator', color: '#8b5cf6', locked: !isPro },
-          { to: '/dashboard/subscription', icon: <Crown size={18} />,     label: 'Subscription',    desc: planId === 'free' ? 'Upgrade for more features' : 'Manage plan', color: '#f59e0b', locked: false },
-          { to: '/dashboard/bookings',     icon: <TrendingUp size={18} />,label: 'Bookings',        desc: 'Manage reservation requests',  color: '#10b981', locked: false },
+          { to: '/dashboard/analytics', icon: <BarChart2 size={18} />, label: 'Analytics', desc: 'Revenue & booking trends', color: '#6366f1', locked: !isPro },
+          { to: '/dashboard/ai-tools', icon: <Sparkles size={18} />, label: 'AI Tools', desc: 'Smart description generator', color: '#8b5cf6', locked: !isPro },
+          { to: '/dashboard/subscription', icon: <Crown size={18} />, label: 'Subscription', desc: planId === 'free' ? 'Upgrade for more features' : 'Manage plan', color: '#f59e0b', locked: false },
+          { to: '/dashboard/bookings', icon: <TrendingUp size={18} />, label: 'Bookings', desc: 'Manage reservation requests', color: '#10b981', locked: false },
         ].map((c, i) => (
           <Link key={i} to={c.to} style={{
             display: 'flex', alignItems: 'center', gap: 12, padding: '14px 16px',
@@ -104,7 +104,7 @@ export default function OwnerDashboard() {
 
       {/* Main Content Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        
+
         {/* Chart */}
         <div className="lg:col-span-2 bg-white dark:bg-[#1e293b] p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
           <div className="flex items-center justify-between mb-6">
@@ -122,18 +122,18 @@ export default function OwnerDashboard() {
               <AreaChart data={data} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
                 <defs>
                   <linearGradient id="colorViews" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#6366f1" stopOpacity={0.3}/>
-                    <stop offset="95%" stopColor="#6366f1" stopOpacity={0}/>
+                    <stop offset="5%" stopColor="#6366f1" stopOpacity={0.3} />
+                    <stop offset="95%" stopColor="#6366f1" stopOpacity={0} />
                   </linearGradient>
                   <linearGradient id="colorInquiries" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#0ea5e9" stopOpacity={0.3}/>
-                    <stop offset="95%" stopColor="#0ea5e9" stopOpacity={0}/>
+                    <stop offset="5%" stopColor="#0ea5e9" stopOpacity={0.3} />
+                    <stop offset="95%" stopColor="#0ea5e9" stopOpacity={0} />
                   </linearGradient>
                 </defs>
                 <XAxis dataKey="name" stroke="#94a3b8" fontSize={12} tickLine={false} axisLine={false} />
                 <YAxis stroke="#94a3b8" fontSize={12} tickLine={false} axisLine={false} tickFormatter={(value) => `${value / 1000}k`} />
                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
-                <Tooltip 
+                <Tooltip
                   contentStyle={{ backgroundColor: '#fff', borderRadius: '12px', border: 'none', boxShadow: '0 4px 20px rgba(0,0,0,0.1)' }}
                   itemStyle={{ fontSize: '14px', fontWeight: 600 }}
                 />
@@ -150,14 +150,14 @@ export default function OwnerDashboard() {
             <h2 className="text-lg font-bold text-slate-900 dark:text-white">Your Properties</h2>
             <button className="text-sm font-medium text-indigo-600 hover:text-indigo-700">View All</button>
           </div>
-          
+
           <div className="flex-1 flex flex-col gap-4 overflow-y-auto" style={{ maxHeight: '350px' }}>
             {loading ? (
               <p className="text-sm text-slate-500">Loading properties...</p>
             ) : listings.length === 0 ? (
               <div className="text-center py-8">
-                 <p className="text-sm text-slate-500 mb-4">No properties listed yet.</p>
-                 <a href="/listings/new" className="text-sm font-medium text-indigo-600 hover:underline">Add your first property</a>
+                <p className="text-sm text-slate-500 mb-4">No properties listed yet.</p>
+                <a href="/listings/new" className="text-sm font-medium text-indigo-600 hover:underline">Add your first property</a>
               </div>
             ) : (
               listings.slice(0, 5).map((listing) => (

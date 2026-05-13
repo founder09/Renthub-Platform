@@ -17,7 +17,7 @@ export default function DashboardLayout() {
   const getNavLinks = () => {
     const role = user?.role || 'tenant';
     const links = [
-      { to: '/dashboard',            label: 'Overview',        icon: <LayoutDashboard size={18} /> },
+      { to: '/dashboard', label: 'Overview', icon: <LayoutDashboard size={18} /> },
     ];
 
     if (role === 'owner' || role === 'admin') {
@@ -31,12 +31,12 @@ export default function DashboardLayout() {
     }
 
     // Visible to all roles
-    links.push({ to: '/dashboard/bookings',      label: 'Bookings',       icon: <BookOpen size={18} /> });
-    links.push({ to: '/dashboard/analytics',     label: 'Analytics',      icon: <BarChart2 size={18} /> });
-    links.push({ to: '/dashboard/ai-tools',      label: 'AI Tools',       icon: <Sparkles size={18} />, badge: 'AI' });
-    links.push({ to: '/dashboard/subscription',  label: 'Subscription',   icon: <Crown size={18} /> });
-    links.push({ to: '/dashboard/notifications', label: 'Notifications',  icon: <Bell size={18} /> });
-    links.push({ to: '/profile',                 label: 'Settings',       icon: <Settings size={18} /> });
+    links.push({ to: '/dashboard/bookings', label: 'Bookings', icon: <BookOpen size={18} /> });
+    links.push({ to: '/dashboard/analytics', label: 'Analytics', icon: <BarChart2 size={18} /> });
+    links.push({ to: '/dashboard/ai-tools', label: 'AI Tools', icon: <Sparkles size={18} />, badge: 'AI' });
+    links.push({ to: '/dashboard/subscription', label: 'Subscription', icon: <Crown size={18} /> });
+    links.push({ to: '/dashboard/notifications', label: 'Notifications', icon: <Bell size={18} /> });
+    links.push({ to: '/profile', label: 'Settings', icon: <Settings size={18} /> });
 
     return links;
   };
@@ -50,10 +50,10 @@ export default function DashboardLayout() {
 
   return (
     <div className="min-h-screen flex bg-[#f8fafc] dark:bg-[#0f172a]">
-      
+
       {/* Mobile Sidebar Overlay */}
       {sidebarOpen && (
-        <div 
+        <div
           className="fixed inset-0 z-40 bg-black/50 lg:hidden"
           onClick={() => setSidebarOpen(false)}
         />
@@ -85,8 +85,8 @@ export default function DashboardLayout() {
                 onClick={() => setSidebarOpen(false)}
                 className={`
                   flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors
-                  ${isActive 
-                    ? 'bg-indigo-50 text-indigo-600 dark:bg-indigo-500/10 dark:text-indigo-400' 
+                  ${isActive
+                    ? 'bg-indigo-50 text-indigo-600 dark:bg-indigo-500/10 dark:text-indigo-400'
                     : 'text-slate-600 hover:bg-slate-50 dark:text-slate-400 dark:hover:bg-slate-800/50'
                   }
                 `}
@@ -113,7 +113,7 @@ export default function DashboardLayout() {
               <p className="text-xs text-slate-500 dark:text-slate-400 capitalize truncate">{user?.role}</p>
             </div>
           </div>
-          <button 
+          <button
             onClick={handleLogout}
             className="flex items-center gap-3 w-full px-3 py-2.5 rounded-lg text-sm font-medium text-red-600 hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-500/10 transition-colors"
           >
@@ -125,7 +125,7 @@ export default function DashboardLayout() {
 
       {/* Main Content */}
       <div className="flex-1 lg:pl-64 flex flex-col min-h-screen">
-        
+
         {/* Topbar Mobile */}
         <header className="lg:hidden flex items-center justify-between h-16 px-4 bg-white dark:bg-[#1e293b] border-b border-slate-200 dark:border-slate-800">
           <Link to="/" className="flex items-center gap-2">

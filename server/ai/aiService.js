@@ -5,9 +5,9 @@
  * Recommendation engine is rule-based + scoring (no LLM needed).
  * All LLM calls are gracefully skipped if API key is missing.
  */
-const Listing  = require('../models/Listing');
-const Booking  = require('../models/Booking');
-const cache    = require('../cache/cacheClient');
+const Listing = require('../models/Listing');
+const Booking = require('../models/Booking');
+const cache = require('../cache/cacheClient');
 
 // ── Gemini client (lazy init) ─────────────────────────────────────────────────
 let genAI = null;
@@ -29,7 +29,7 @@ function getGenAI() {
  */
 async function getSmartRecommendations({ userId, budget, location, amenities = [], college, listingType, limit = 6 }) {
   const cacheKey = `recommendations:${userId || 'guest'}:${budget}:${location}:${college}`;
-  const cached   = await cache.get(cacheKey);
+  const cached = await cache.get(cacheKey);
   if (cached) return cached;
 
   // Build a loose filter
@@ -121,10 +121,10 @@ async function generatePropertyDescription(propertyDetails) {
   }
 
   try {
-    const model  = ai.getGenerativeModel({ model: 'gemini-1.5-flash' });
+    const model = ai.getGenerativeModel({ model: 'gemini-1.5-flash' });
     const prompt = DESCRIPTION_PROMPT_TEMPLATE(propertyDetails);
     const result = await model.generateContent(prompt);
-    const text   = result.response.text().trim();
+    const text = result.response.text().trim();
     return { description: text, aiGenerated: true, model: 'gemini-1.5-flash' };
   } catch (err) {
     console.error('[AI] Description generation failed:', err.message);
@@ -134,7 +134,7 @@ async function generatePropertyDescription(propertyDetails) {
 
 function generateRuleBasedDescription({ title, listingType, location, nearCollege, amenities = [], price, bedrooms, bathrooms, gender }) {
   const amenityList = amenities.slice(0, 4).join(', ');
-  const genderNote  = gender && gender !== 'Any' ? `Exclusively for ${gender.toLowerCase()} students.` : 'Open to all students.';
+  const genderNote = gender && gender !== 'Any' ? `Exclusively for ${gender.toLowerCase()} students.` : 'Open to all students.';
   const collegeNote = nearCollege ? `Conveniently located near ${nearCollege}.` : '';
 
   const desc = `Welcome to ${title}, a well-maintained ${listingType.toLowerCase()} in ${location}. ${collegeNote} This comfortable space offers ${bedrooms} bedroom(s) and ${bathrooms} bathroom(s), perfect for students seeking a peaceful and productive living environment.
@@ -152,10 +152,10 @@ async function getSearchSuggestions(query) {
   if (!query || query.length < 2) return [];
 
   const cacheKey = `suggestions:${query.toLowerCase()}`;
-  const cached   = await cache.get(cacheKey);
+  const cached = await cache.get(cacheKey);
   if (cached) return cached;
 
-  const regex    = new RegExp(query, 'i');
+  const regex = new RegExp(query, 'i');
   const listings = await Listing.find({
     $or: [{ title: regex }, { location: regex }, { nearCollege: regex }],
   })
@@ -164,10 +164,10 @@ async function getSearchSuggestions(query) {
     .lean();
 
   const suggestions = listings.map(l => ({
-    id:    l._id,
+    id: l._id,
     label: l.title,
-    sub:   `${l.location} · ${l.listingType}`,
-    type:  'listing',
+    sub: `${l.location} · ${l.listingType}`,
+    type: 'listing',
   }));
 
   await cache.set(cacheKey, suggestions, 60); // 1 min
@@ -177,7 +177,7 @@ async function getSearchSuggestions(query) {
 // ── 4. FRAUD DETECTION (rule-based) ──────────────────────────────────────────
 
 async function analyzeListingForFraud(listing) {
-  const flags   = [];
+  const flags = [];
   const reasons = [];
 
   // Suspiciously low price
@@ -196,7 +196,7 @@ async function analyzeListingForFraud(listing) {
   const duplicates = await Listing.countDocuments({
     owner: listing.owner,
     title: listing.title,
-    _id:   { $ne: listing._id },
+    _id: { $ne: listing._id },
   });
   if (duplicates > 0) {
     flags.push('duplicate_listing');
@@ -204,10 +204,10 @@ async function analyzeListingForFraud(listing) {
   }
 
   return {
-    isFlagged:   flags.length > 0,
+    isFlagged: flags.length > 0,
     flags,
     reasons,
-    riskScore:   flags.length * 33, // 0-99
+    riskScore: flags.length * 33, // 0-99
   };
 }
 
@@ -216,11 +216,11 @@ async function analyzeListingForFraud(listing) {
 async function chatAssistant(message, context = {}) {
   // Placeholder — architecture ready for LLM injection
   const responses = {
-    greeting:       'Hi! I\'m RentHub AI. I can help you find accommodation, understand booking processes, and recommend properties.',
-    pricing:        'Our properties range from ₹3,000 to ₹25,000/month depending on location and type.',
-    booking:        'To book a property: click "Reserve", select your dates, and submit. The owner will accept within 24 hours.',
+    greeting: 'Hi! I\'m RentHub AI. I can help you find accommodation, understand booking processes, and recommend properties.',
+    pricing: 'Our properties range from ₹3,000 to ₹25,000/month depending on location and type.',
+    booking: 'To book a property: click "Reserve", select your dates, and submit. The owner will accept within 24 hours.',
     recommendation: 'Tell me your budget and preferred location, and I\'ll suggest the best properties for you!',
-    default:        'I\'m here to help! Ask me about properties, bookings, or pricing.',
+    default: 'I\'m here to help! Ask me about properties, bookings, or pricing.',
   };
 
   const lower = message.toLowerCase();
@@ -233,8 +233,8 @@ async function chatAssistant(message, context = {}) {
 
   return {
     message: reply,
-    model:   'rule-based-v1',
-    note:    'Full LLM integration ready via GEMINI_API_KEY',
+    model: 'rule-based-v1',
+    note: 'Full LLM integration ready via GEMINI_API_KEY',
   };
 }
 

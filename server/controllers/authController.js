@@ -1,13 +1,13 @@
-const User         = require('../models/User');
+const User = require('../models/User');
 const ExpressError = require('../utils/ExpressError');
 const { uploadToCloudinary } = require('../config/cloudConfig');
 
 // Cookie options shared between login and register
 const cookieOptions = {
   httpOnly: true,
-  secure:   process.env.NODE_ENV === 'production',
+  secure: process.env.NODE_ENV === 'production',
   sameSite: 'strict',
-  maxAge:   7 * 24 * 60 * 60 * 1000, // 7 days
+  maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
 };
 
 /** POST /api/auth/register */
@@ -44,7 +44,7 @@ exports.register = async (req, res, next) => {
     res.status(201).json({
       success: true,
       message: 'Account created successfully',
-      user:    { id: user._id, username: user.username, email: user.email, role: user.role },
+      user: { id: user._id, username: user.username, email: user.email, role: user.role },
       token,
     });
   } catch (err) {
@@ -72,7 +72,7 @@ exports.login = async (req, res, next) => {
     res.json({
       success: true,
       message: 'Login successful',
-      user:    { id: user._id, username: user.username, email: user.email, role: user.role },
+      user: { id: user._id, username: user.username, email: user.email, role: user.role },
       token,
     });
   } catch (err) {

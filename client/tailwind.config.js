@@ -12,7 +12,7 @@ export default {
       },
       colors: {
         brand: {
-          50:  '#fff1f2',
+          50: '#fff1f2',
           100: '#ffe4e6',
           500: '#f43f5e',
           600: '#e11d48',
@@ -32,7 +32,7 @@ export default {
       keyframes: {
         float: {
           '0%, 100%': { transform: 'translateY(0)' },
-          '50%':      { transform: 'translateY(-8px)' },
+          '50%': { transform: 'translateY(-8px)' },
         },
       },
     },

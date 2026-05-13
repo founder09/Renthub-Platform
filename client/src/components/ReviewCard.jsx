@@ -7,7 +7,7 @@ import { Star, Trash2 } from 'lucide-react'
 const STARS = [1, 2, 3, 4, 5]
 
 export default function ReviewCard({ review, listingId, onDelete }) {
-  const { user }    = useAuth()
+  const { user } = useAuth()
   const [deleting, setDeleting] = useState(false)
   const isAuthor = user && review.author?._id === user.id
 
@@ -26,14 +26,14 @@ export default function ReviewCard({ review, listingId, onDelete }) {
   }
 
   const initials = review.author?.username?.[0]?.toUpperCase() || '?'
-  const dateStr  = new Date(review.createdAt).toLocaleDateString('en-IN', {
+  const dateStr = new Date(review.createdAt).toLocaleDateString('en-IN', {
     day: 'numeric', month: 'short', year: 'numeric',
   })
 
   // Avatar gradient seed from username
   const colors = [
-    ['#6366f1','#8b5cf6'], ['#0891b2','#06b6d4'], ['#059669','#10b981'],
-    ['#d97706','#f59e0b'], ['#e11d48','#f43f5e'],
+    ['#6366f1', '#8b5cf6'], ['#0891b2', '#06b6d4'], ['#059669', '#10b981'],
+    ['#d97706', '#f59e0b'], ['#e11d48', '#f43f5e'],
   ]
   const seed = (review.author?.username?.charCodeAt(0) || 0) % colors.length
   const [c1, c2] = colors[seed]

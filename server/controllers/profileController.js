@@ -43,7 +43,7 @@ exports.updateProfile = async (req, res, next) => {
 exports.toggleSave = async (req, res, next) => {
   try {
     const user = await User.findById(req.user._id);
-    const lid  = req.params.listingId;
+    const lid = req.params.listingId;
 
     const idx = user.savedListings.findIndex(id => id.toString() === lid);
     if (idx > -1) {

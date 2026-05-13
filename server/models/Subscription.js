@@ -6,67 +6,67 @@ const mongoose = require('mongoose');
  */
 const PLANS = {
   free: {
-    id:          'free',
-    name:        'Free',
-    price:       0,
+    id: 'free',
+    name: 'Free',
+    price: 0,
     billingCycle: 'lifetime',
     features: {
-      maxListings:       2,
-      analyticsAccess:   'basic',
+      maxListings: 2,
+      analyticsAccess: 'basic',
       bookingManagement: 'basic',
-      aiFeatures:        false,
-      featuredListings:  false,
-      prioritySupport:   false,
-      teamManagement:    false,
+      aiFeatures: false,
+      featuredListings: false,
+      prioritySupport: false,
+      teamManagement: false,
     },
     badge: null,
   },
   pro: {
-    id:          'pro',
-    name:        'Pro',
-    price:       999,          // ₹999/month
+    id: 'pro',
+    name: 'Pro',
+    price: 999,          // ₹999/month
     billingCycle: 'monthly',
     features: {
-      maxListings:       -1,   // unlimited
-      analyticsAccess:   'advanced',
+      maxListings: -1,   // unlimited
+      analyticsAccess: 'advanced',
       bookingManagement: 'advanced',
-      aiFeatures:        true,
-      featuredListings:  true,
-      prioritySupport:   true,
-      teamManagement:    false,
+      aiFeatures: true,
+      featuredListings: true,
+      prioritySupport: true,
+      teamManagement: false,
     },
     badge: 'PRO',
   },
   business: {
-    id:          'business',
-    name:        'Business',
-    price:       2999,
+    id: 'business',
+    name: 'Business',
+    price: 2999,
     billingCycle: 'monthly',
     features: {
-      maxListings:       -1,
-      analyticsAccess:   'enterprise',
+      maxListings: -1,
+      analyticsAccess: 'enterprise',
       bookingManagement: 'advanced',
-      aiFeatures:        true,
-      featuredListings:  true,
-      prioritySupport:   true,
-      teamManagement:    true,
+      aiFeatures: true,
+      featuredListings: true,
+      prioritySupport: true,
+      teamManagement: true,
     },
     badge: 'BUSINESS',
   },
 };
 
 const subscriptionSchema = new mongoose.Schema({
-  userId:     { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true, unique: true },
-  planId:     { type: String, enum: ['free', 'pro', 'business'], default: 'free' },
-  status:     { type: String, enum: ['active', 'expired', 'cancelled', 'trial'], default: 'active' },
-  startDate:  { type: Date, default: Date.now },
-  endDate:    { type: Date, default: null },   // null = lifetime (free)
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true, unique: true },
+  planId: { type: String, enum: ['free', 'pro', 'business'], default: 'free' },
+  status: { type: String, enum: ['active', 'expired', 'cancelled', 'trial'], default: 'active' },
+  startDate: { type: Date, default: Date.now },
+  endDate: { type: Date, default: null },   // null = lifetime (free)
   billingCycle: { type: String, enum: ['monthly', 'yearly', 'lifetime'], default: 'lifetime' },
   paymentStatus: { type: String, enum: ['unpaid', 'paid', 'refunded'], default: 'unpaid' },
   // Razorpay references
-  razorpayOrderId:   { type: String, default: null },
+  razorpayOrderId: { type: String, default: null },
   razorpayPaymentId: { type: String, default: null },
-  transactionId:     { type: String, default: null },
+  transactionId: { type: String, default: null },
   // Usage tracking
   listingsCount: { type: Number, default: 0 },
 }, { timestamps: true });

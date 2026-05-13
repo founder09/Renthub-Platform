@@ -12,17 +12,17 @@ const morgan = require('morgan');
 const connectDB = require('./config/db');
 const ExpressError = require('./utils/ExpressError');
 
-const listingRoutes          = require('./routes/listings');
-const reviewRoutes           = require('./routes/reviews');
-const userRoutes             = require('./routes/auth'); // Renamed from users to auth
-const profileRoutes          = require('./routes/profile');
-const bookingRoutes          = require('./routes/bookings');
-const paymentRoutes          = require('./routes/payments');
-const notificationRoutes     = require('./routes/notifications');
-const subscriptionRoutes     = require('./routes/subscriptions');
-const analyticsRoutes        = require('./routes/analytics');
-const aiRoutes               = require('./routes/ai');
-const adminRoutes            = require('./routes/admin');
+const listingRoutes = require('./routes/listings');
+const reviewRoutes = require('./routes/reviews');
+const userRoutes = require('./routes/auth'); // Renamed from users to auth
+const profileRoutes = require('./routes/profile');
+const bookingRoutes = require('./routes/bookings');
+const paymentRoutes = require('./routes/payments');
+const notificationRoutes = require('./routes/notifications');
+const subscriptionRoutes = require('./routes/subscriptions');
+const analyticsRoutes = require('./routes/analytics');
+const aiRoutes = require('./routes/ai');
+const adminRoutes = require('./routes/admin');
 
 // Initialize cache (logs whether Redis or in-memory)
 require('./cache/cacheClient');
@@ -54,17 +54,17 @@ const limiter = rateLimit({
 app.use('/api', limiter);
 
 // ─── API Routes ───────────────────────────────────────────────────────────────
-app.use('/api/auth',          userRoutes);
-app.use('/api/listings',      listingRoutes);
-app.use('/api/listings',      reviewRoutes);        // nested: /api/listings/:id/reviews
-app.use('/api/profile',       profileRoutes);
-app.use('/api/bookings',      bookingRoutes);
-app.use('/api/payments',      paymentRoutes);
+app.use('/api/auth', userRoutes);
+app.use('/api/listings', listingRoutes);
+app.use('/api/listings', reviewRoutes);        // nested: /api/listings/:id/reviews
+app.use('/api/profile', profileRoutes);
+app.use('/api/bookings', bookingRoutes);
+app.use('/api/payments', paymentRoutes);
 app.use('/api/notifications', notificationRoutes);
 app.use('/api/subscriptions', subscriptionRoutes);
-app.use('/api/analytics',     analyticsRoutes);
-app.use('/api/ai',            aiRoutes);
-app.use('/api/admin',         adminRoutes);
+app.use('/api/analytics', analyticsRoutes);
+app.use('/api/ai', aiRoutes);
+app.use('/api/admin', adminRoutes);
 
 // ─── 404 Handler ─────────────────────────────────────────────────────────────
 app.all('*', (req, res, next) => {

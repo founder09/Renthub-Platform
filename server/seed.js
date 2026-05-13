@@ -75,7 +75,7 @@ async function seedDB() {
       const loc = getRandom(LOCATIONS);
       const pType = getRandom(PROPERTY_TYPES);
       const mainImg = getRandom(IMAGES);
-      
+
       const imagesSubset = getRandomSubset(IMAGES, 4);
       const roomImages = imagesSubset.map(url => ({ url, filename: 'dummy' }));
 

@@ -7,9 +7,9 @@ const STARS = [1, 2, 3, 4, 5]
 
 export default function ReviewForm({ listingId, onReviewAdded }) {
   const { register, handleSubmit, reset, formState: { errors } } = useForm()
-  const [hovered,     setHovered]     = useState(0)
+  const [hovered, setHovered] = useState(0)
   const [selectedRating, setSelectedRating] = useState(0)
-  const [submitting,  setSubmitting]  = useState(false)
+  const [submitting, setSubmitting] = useState(false)
 
   const onSubmit = async (data) => {
     if (!selectedRating) { toast.error('Please select a star rating'); return }

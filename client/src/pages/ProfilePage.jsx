@@ -16,11 +16,11 @@ const FALLBACK = 'https://images.unsplash.com/photo-1555854877-bab0e564b8d5?w=40
 export default function ProfilePage() {
   const { user } = useAuth()
   const navigate = useNavigate()
-  const [profile,   setProfile]   = useState(null)
-  const [loading,   setLoading]   = useState(true)
-  const [editing,   setEditing]   = useState(false)
-  const [saving,    setSaving]    = useState(false)
-  const [form,      setForm]      = useState({ phone: '', college: '' })
+  const [profile, setProfile] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const [editing, setEditing] = useState(false)
+  const [saving, setSaving] = useState(false)
+  const [form, setForm] = useState({ phone: '', college: '' })
 
   useEffect(() => {
     if (!user) { navigate('/login'); return }

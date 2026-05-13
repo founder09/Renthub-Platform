@@ -9,16 +9,16 @@ import {
 } from 'lucide-react';
 
 const STATUS_STYLES = {
-  pending:   { bg: '#fef9c3', color: '#92400e', dot: '#eab308' },
-  accepted:  { bg: '#dcfce7', color: '#166534', dot: '#22c55e' },
-  rejected:  { bg: '#fee2e2', color: '#991b1b', dot: '#ef4444' },
+  pending: { bg: '#fef9c3', color: '#92400e', dot: '#eab308' },
+  accepted: { bg: '#dcfce7', color: '#166534', dot: '#22c55e' },
+  rejected: { bg: '#fee2e2', color: '#991b1b', dot: '#ef4444' },
   cancelled: { bg: '#f3f4f6', color: '#374151', dot: '#9ca3af' },
   completed: { bg: '#dbeafe', color: '#1e40af', dot: '#3b82f6' },
 };
 
 const PAYMENT_STYLES = {
-  unpaid:   { bg: '#fff7ed', color: '#c2410c' },
-  paid:     { bg: '#dcfce7', color: '#166534' },
+  unpaid: { bg: '#fff7ed', color: '#c2410c' },
+  paid: { bg: '#dcfce7', color: '#166534' },
   refunded: { bg: '#ede9fe', color: '#7c3aed' },
 };
 
@@ -84,17 +84,17 @@ function BookingCard({ booking, isOwner, onRefresh }) {
     try {
       const { data } = await createOrder(booking._id);
       const opts = {
-        key:      data.data.keyId,
-        amount:   data.data.amount,
+        key: data.data.keyId,
+        amount: data.data.amount,
         currency: data.data.currency,
-        name:     'RentHub',
+        name: 'RentHub',
         description: `Booking ${booking.bookingId}`,
         order_id: data.data.orderId,
-        theme:    { color: '#6366f1' },
-        handler:  async (response) => {
+        theme: { color: '#6366f1' },
+        handler: async (response) => {
           try {
             await verifyPayment({
-              razorpayOrderId:   response.razorpay_order_id,
+              razorpayOrderId: response.razorpay_order_id,
               razorpayPaymentId: response.razorpay_payment_id,
               razorpaySignature: response.razorpay_signature,
               bookingId: booking._id,
@@ -215,23 +215,23 @@ function loadRazorpayScript() {
 }
 
 const FILTER_TABS = [
-  { label: 'All',       value: '' },
-  { label: 'Pending',   value: 'pending' },
-  { label: 'Accepted',  value: 'accepted' },
-  { label: 'Rejected',  value: 'rejected' },
+  { label: 'All', value: '' },
+  { label: 'Pending', value: 'pending' },
+  { label: 'Accepted', value: 'accepted' },
+  { label: 'Rejected', value: 'rejected' },
   { label: 'Cancelled', value: 'cancelled' },
   { label: 'Completed', value: 'completed' },
 ];
 
 export default function BookingsDashboard() {
   const { user } = useAuth();
-  const isOwner  = user?.role === 'owner';
+  const isOwner = user?.role === 'owner';
 
   const [bookings, setBookings] = useState([]);
-  const [loading,  setLoading]  = useState(true);
-  const [filter,   setFilter]   = useState('');
-  const [page,     setPage]     = useState(1);
-  const [total,    setTotal]    = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [filter, setFilter] = useState('');
+  const [page, setPage] = useState(1);
+  const [total, setTotal] = useState(0);
   const LIMIT = 10;
 
   const fetchBookings = async () => {
@@ -251,8 +251,8 @@ export default function BookingsDashboard() {
   useEffect(() => { fetchBookings(); }, [filter, page]);
 
   const stats = {
-    total:    bookings.length,
-    pending:  bookings.filter(b => b.bookingStatus === 'pending').length,
+    total: bookings.length,
+    pending: bookings.filter(b => b.bookingStatus === 'pending').length,
     accepted: bookings.filter(b => b.bookingStatus === 'accepted').length,
     earnings: bookings.filter(b => b.paymentStatus === 'paid').reduce((s, b) => s + b.totalAmount, 0),
   };
@@ -278,10 +278,12 @@ export default function BookingsDashboard() {
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: 16 }}>
         {[
           { label: 'Total Bookings', value: total, icon: '📋' },
-          { label: 'Pending',        value: stats.pending, icon: '⏳' },
-          { label: 'Accepted',       value: stats.accepted, icon: '✅' },
-          { label: isOwner ? 'Revenue (paid)' : 'Amount Paid',
-            value: `₹${stats.earnings.toLocaleString('en-IN')}`, icon: '💰' },
+          { label: 'Pending', value: stats.pending, icon: '⏳' },
+          { label: 'Accepted', value: stats.accepted, icon: '✅' },
+          {
+            label: isOwner ? 'Revenue (paid)' : 'Amount Paid',
+            value: `₹${stats.earnings.toLocaleString('en-IN')}`, icon: '💰'
+          },
         ].map((s, i) => (
           <div key={i} style={{
             background: 'var(--bg-surface)', border: '1px solid var(--border-default)',
@@ -315,7 +317,7 @@ export default function BookingsDashboard() {
       {/* Bookings List */}
       {loading ? (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-          {[1,2,3].map(i => (
+          {[1, 2, 3].map(i => (
             <div key={i} style={{ height: 120, background: 'var(--bg-muted)', borderRadius: 16, animation: 'pulse 1.5s infinite' }} />
           ))}
         </div>

@@ -1,7 +1,7 @@
-const subSvc       = require('../services/subscriptionService');
-const { PLANS }    = require('../models/Subscription');
+const subSvc = require('../services/subscriptionService');
+const { PLANS } = require('../models/Subscription');
 const ExpressError = require('../utils/ExpressError');
-const crypto       = require('crypto');
+const crypto = require('crypto');
 
 // ── Get current user's subscription ──────────────────────────────────────────
 exports.getMySubscription = async (req, res, next) => {
@@ -66,10 +66,10 @@ exports.getSubscriptionStats = async (req, res, next) => {
 exports.downgradeToFree = async (req, res, next) => {
   try {
     const sub = await subSvc.getOrCreateSubscription(req.user._id);
-    sub.planId        = 'free';
-    sub.status        = 'active';
-    sub.endDate       = null;
-    sub.billingCycle  = 'lifetime';
+    sub.planId = 'free';
+    sub.status = 'active';
+    sub.endDate = null;
+    sub.billingCycle = 'lifetime';
     sub.paymentStatus = 'unpaid';
     await sub.save();
     res.json({ success: true, message: 'Downgraded to Free plan', data: { plan: PLANS.free } });

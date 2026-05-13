@@ -34,8 +34,8 @@ export default function AIToolsPage() {
               borderRadius: 12, border: '1.5px solid', cursor: 'pointer', fontSize: 14, fontWeight: 600,
               transition: 'all 0.15s',
               borderColor: activeTool === tool.id ? '#6366f1' : 'var(--border-default)',
-              background:  activeTool === tool.id ? '#6366f1' : 'var(--bg-surface)',
-              color:       activeTool === tool.id ? '#fff'    : 'var(--text-secondary)',
+              background: activeTool === tool.id ? '#6366f1' : 'var(--bg-surface)',
+              color: activeTool === tool.id ? '#fff' : 'var(--text-secondary)',
             }}>
             {tool.icon} {tool.label}
             {tool.badge && (

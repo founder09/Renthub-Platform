@@ -11,12 +11,12 @@ import NotificationBell from './NotificationBell'
 import toast from 'react-hot-toast'
 
 export default function Navbar() {
-  const { user, logout }      = useAuth()
-  const { dark, toggle }      = useTheme()
-  const navigate              = useNavigate()
-  const location              = useLocation()
+  const { user, logout } = useAuth()
+  const { dark, toggle } = useTheme()
+  const navigate = useNavigate()
+  const location = useLocation()
   const [mobileOpen, setMobileOpen] = useState(false)
-  const [dropOpen,   setDropOpen]   = useState(false)
+  const [dropOpen, setDropOpen] = useState(false)
   const dropRef = useRef(null)
 
   useEffect(() => {
@@ -55,11 +55,10 @@ export default function Navbar() {
           <div className="hidden md:flex items-center gap-1">
             <Link
               to="/listings"
-              className={`flex items-center gap-1.5 text-sm font-medium px-3.5 py-2 rounded-xl transition-all duration-150 ${
-                isActive('/listings')
+              className={`flex items-center gap-1.5 text-sm font-medium px-3.5 py-2 rounded-xl transition-all duration-150 ${isActive('/listings')
                   ? 'text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/40'
                   : ''
-              }`}
+                }`}
               style={{ color: isActive('/listings') ? 'var(--brand-600)' : 'var(--text-muted)' }}>
               <Search size={15} />
               Browse
@@ -143,7 +142,7 @@ export default function Navbar() {
                         <span style={{ color: 'var(--text-muted)' }}><User size={14} /></span>
                         My Profile
                       </Link>
-                      
+
                       {(user.role === 'owner' || user.role === 'admin') && (
                         <Link to="/listings/new"
                           className="flex items-center gap-2.5 px-4 py-2.5 text-sm transition-colors"
@@ -174,7 +173,7 @@ export default function Navbar() {
               </>
             ) : (
               <>
-                <Link to="/login"  className="btn-ghost btn-sm">Sign in</Link>
+                <Link to="/login" className="btn-ghost btn-sm">Sign in</Link>
                 <Link to="/signup" className="btn-primary btn-sm">Get Started</Link>
               </>
             )}
@@ -241,7 +240,7 @@ export default function Navbar() {
               </>
             ) : (
               <div className="flex gap-2 pt-2">
-                <Link to="/login"  className="btn-secondary btn-sm flex-1 justify-center">Sign In</Link>
+                <Link to="/login" className="btn-secondary btn-sm flex-1 justify-center">Sign In</Link>
                 <Link to="/signup" className="btn-primary  btn-sm flex-1 justify-center">Get Started</Link>
               </div>
             )}

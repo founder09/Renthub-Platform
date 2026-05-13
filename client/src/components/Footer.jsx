@@ -66,9 +66,9 @@ export default function Footer() {
             {/* Social */}
             <div className="flex gap-2">
               {[
-                { icon: <Twitter size={15} />,   href: '#', label: 'Twitter'   },
-                { icon: <Instagram size={15} />,  href: '#', label: 'Instagram' },
-                { icon: <Linkedin size={15} />,   href: '#', label: 'LinkedIn'  },
+                { icon: <Twitter size={15} />, href: '#', label: 'Twitter' },
+                { icon: <Instagram size={15} />, href: '#', label: 'Instagram' },
+                { icon: <Linkedin size={15} />, href: '#', label: 'LinkedIn' },
               ].map(s => (
                 <a key={s.label} href={s.href} aria-label={s.label}
                   className="w-9 h-9 rounded-xl flex items-center justify-center border transition-all hover:scale-105 hover:border-indigo-400"

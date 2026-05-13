@@ -10,24 +10,24 @@ const COLLEGES = [
 ]
 
 const LISTING_TYPES = [
-  { value: 'Room',   label: 'Room',   icon: <Home size={13} /> },
-  { value: 'PG',     label: 'PG',     icon: <Layers size={13} /> },
-  { value: 'Flat',   label: 'Flat',   icon: <Building2 size={13} /> },
+  { value: 'Room', label: 'Room', icon: <Home size={13} /> },
+  { value: 'PG', label: 'PG', icon: <Layers size={13} /> },
+  { value: 'Flat', label: 'Flat', icon: <Building2 size={13} /> },
   { value: 'Hostel', label: 'Hostel', icon: <School size={13} /> },
   { value: 'Studio', label: 'Studio', icon: <Palette size={13} /> },
 ]
 
 const GENDER_OPTIONS = [
-  { value: 'Any',    label: 'Any Gender', icon: <Users size={13} /> },
-  { value: 'Male',   label: 'Male Only',  icon: <UserCheck size={13} /> },
-  { value: 'Female', label: 'Female Only',icon: <UserX size={13} /> },
+  { value: 'Any', label: 'Any Gender', icon: <Users size={13} /> },
+  { value: 'Male', label: 'Male Only', icon: <UserCheck size={13} /> },
+  { value: 'Female', label: 'Female Only', icon: <UserX size={13} /> },
 ]
 
 const SORT_OPTIONS = [
-  { value: '',            label: 'Newest First' },
-  { value: 'price_asc',  label: 'Price: Low → High' },
+  { value: '', label: 'Newest First' },
+  { value: 'price_asc', label: 'Price: Low → High' },
   { value: 'price_desc', label: 'Price: High → Low' },
-  { value: 'rating',     label: 'Top Rated' },
+  { value: 'rating', label: 'Top Rated' },
 ]
 
 const hasActiveFilters = (f) =>
@@ -36,7 +36,7 @@ const hasActiveFilters = (f) =>
 export default function FilterBar({ filters, onChange }) {
   const { nearCollege, listingType, gender, minPrice, maxPrice, sortBy } = filters
 
-  const set  = (key, val) => onChange({ ...filters, [key]: val })
+  const set = (key, val) => onChange({ ...filters, [key]: val })
   const clear = () => onChange({ nearCollege: '', listingType: '', gender: 'Any', minPrice: '', maxPrice: '', sortBy: '' })
 
   return (

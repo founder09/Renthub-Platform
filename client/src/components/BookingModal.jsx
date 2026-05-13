@@ -7,9 +7,9 @@ import toast from 'react-hot-toast';
 import { X, Calendar, Users, CreditCard, Shield, Loader2 } from 'lucide-react';
 
 const STATUS_COLOR = {
-  pending:   { bg: '#fef9c3', text: '#92400e', label: 'Pending' },
-  accepted:  { bg: '#dcfce7', text: '#166534', label: 'Accepted' },
-  rejected:  { bg: '#fee2e2', text: '#991b1b', label: 'Rejected' },
+  pending: { bg: '#fef9c3', text: '#92400e', label: 'Pending' },
+  accepted: { bg: '#dcfce7', text: '#166534', label: 'Accepted' },
+  rejected: { bg: '#fee2e2', text: '#991b1b', label: 'Rejected' },
   cancelled: { bg: '#f3f4f6', text: '#374151', label: 'Cancelled' },
   completed: { bg: '#dbeafe', text: '#1e40af', label: 'Completed' },
 };
@@ -18,9 +18,9 @@ function loadRazorpayScript() {
   return new Promise((resolve) => {
     if (document.getElementById('rzp-sdk')) return resolve(true);
     const script = document.createElement('script');
-    script.id  = 'rzp-sdk';
+    script.id = 'rzp-sdk';
     script.src = 'https://checkout.razorpay.com/v1/checkout.js';
-    script.onload  = () => resolve(true);
+    script.onload = () => resolve(true);
     script.onerror = () => resolve(false);
     document.body.appendChild(script);
   });
@@ -28,25 +28,25 @@ function loadRazorpayScript() {
 
 export default function BookingModal({ listing, onClose }) {
   const { user } = useAuth();
-  const navigate  = useNavigate();
-  const today     = new Date().toISOString().split('T')[0];
+  const navigate = useNavigate();
+  const today = new Date().toISOString().split('T')[0];
 
   const [form, setForm] = useState({
-    checkInDate:  '',
+    checkInDate: '',
     checkOutDate: '',
     numberOfGuests: 1,
   });
-  const [step,    setStep]    = useState('form'); // 'form' | 'confirm' | 'success'
+  const [step, setStep] = useState('form'); // 'form' | 'confirm' | 'success'
   const [booking, setBooking] = useState(null);
   const [loading, setLoading] = useState(false);
 
   const msPerDay = 1000 * 60 * 60 * 24;
-  const days     = form.checkInDate && form.checkOutDate
+  const days = form.checkInDate && form.checkOutDate
     ? Math.ceil((new Date(form.checkOutDate) - new Date(form.checkInDate)) / msPerDay)
     : 0;
-  const months   = Math.max(1, Math.ceil(days / 30));
-  const rent     = listing.price * months;
-  const total    = rent + (listing.securityDeposit || 0);
+  const months = Math.max(1, Math.ceil(days / 30));
+  const rent = listing.price * months;
+  const total = rent + (listing.securityDeposit || 0);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -73,14 +73,14 @@ export default function BookingModal({ listing, onClose }) {
     try {
       const { data } = await createOrder(booking._id);
       const options = {
-        key:    data.data.keyId,
+        key: data.data.keyId,
         amount: data.data.amount,
         currency: data.data.currency,
-        name:   'RentHub',
+        name: 'RentHub',
         description: `Booking: ${listing.title}`,
         order_id: data.data.orderId,
         prefill: {
-          name:  user.username,
+          name: user.username,
           email: user.email,
           contact: user.phone || '',
         },
@@ -88,7 +88,7 @@ export default function BookingModal({ listing, onClose }) {
         handler: async (response) => {
           try {
             await verifyPayment({
-              razorpayOrderId:   response.razorpay_order_id,
+              razorpayOrderId: response.razorpay_order_id,
               razorpayPaymentId: response.razorpay_payment_id,
               razorpaySignature: response.razorpay_signature,
               bookingId: booking._id,

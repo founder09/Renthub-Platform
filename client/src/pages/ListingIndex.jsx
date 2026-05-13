@@ -70,14 +70,14 @@ export default function ListingIndex() {
   const fetchListings = async () => {
     const params = { page, limit: LIMIT }
 
-    if (search)                                params.search      = search
-    if (filters.nearCollege)                   params.nearCollege = filters.nearCollege
-    if (filters.listingType)                   params.listingType = filters.listingType
+    if (search) params.search = search
+    if (filters.nearCollege) params.nearCollege = filters.nearCollege
+    if (filters.listingType) params.listingType = filters.listingType
     if (filters.gender && filters.gender !== 'Any') params.gender = filters.gender
-    if (filters.minPrice)                      params.minPrice    = filters.minPrice
-    if (filters.maxPrice)                      params.maxPrice    = filters.maxPrice
-    if (filters.sortBy)                        params.sort        = filters.sortBy
-    if (filters.amenities)                     params.amenities   = filters.amenities
+    if (filters.minPrice) params.minPrice = filters.minPrice
+    if (filters.maxPrice) params.maxPrice = filters.maxPrice
+    if (filters.sortBy) params.sort = filters.sortBy
+    if (filters.amenities) params.amenities = filters.amenities
 
     const { data } = await getAllListings(params)
     // New backend returns { listings, total, page, totalPages }
@@ -97,8 +97,8 @@ export default function ListingIndex() {
     keepPreviousData: true,
   })
 
-  const listings   = pageData?.listings   || []
-  const totalCount = pageData?.total      || 0
+  const listings = pageData?.listings || []
+  const totalCount = pageData?.total || 0
   const totalPages = pageData?.totalPages || 1
 
   const error = queryError

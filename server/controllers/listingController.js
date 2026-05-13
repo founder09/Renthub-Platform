@@ -1,7 +1,7 @@
-const Listing      = require('../models/Listing');
+const Listing = require('../models/Listing');
 const ExpressError = require('../utils/ExpressError');
 const { cloudinary, uploadToCloudinary } = require('../config/cloudConfig');
-const mbxGeoCoding   = require('@mapbox/mapbox-sdk/services/geocoding');
+const mbxGeoCoding = require('@mapbox/mapbox-sdk/services/geocoding');
 const mongoose = require('mongoose');
 
 const geocodingClient = mbxGeoCoding({ accessToken: process.env.MAP_TOKEN });
@@ -24,12 +24,12 @@ exports.index = async (req, res, next) => {
     // Text search — title or location
     if (search) {
       filter.$or = [
-        { title:    { $regex: search, $options: 'i' } },
+        { title: { $regex: search, $options: 'i' } },
         { location: { $regex: search, $options: 'i' } },
         { description: { $regex: search, $options: 'i' } },
       ];
     }
-    if (country)     filter.country     = { $regex: country, $options: 'i' };
+    if (country) filter.country = { $regex: country, $options: 'i' };
     if (nearCollege) filter.nearCollege = nearCollege;
     if (listingType) filter.listingType = listingType;
     if (gender && gender !== 'Any') filter.gender = gender;
@@ -48,15 +48,15 @@ exports.index = async (req, res, next) => {
 
     // Sort options
     const SORT_MAP = {
-      newest:     { createdAt: -1 },
-      oldest:     { createdAt: 1 },
-      price_asc:  { price: 1 },
+      newest: { createdAt: -1 },
+      oldest: { createdAt: 1 },
+      price_asc: { price: 1 },
       price_desc: { price: -1 },
-      top_rated:  { 'reviews.length': -1, viewCount: -1 },
+      top_rated: { 'reviews.length': -1, viewCount: -1 },
     };
     const sortOption = SORT_MAP[sort] || SORT_MAP.newest;
 
-    const skip     = (Number(page) - 1) * Number(limit);
+    const skip = (Number(page) - 1) * Number(limit);
     const [listings, total] = await Promise.all([
       Listing.find(filter)
         .select(PRIVATE_FIELDS)
@@ -72,8 +72,8 @@ exports.index = async (req, res, next) => {
       data: {
         listings,
         total,
-        page:       Number(page),
-        limit:      Number(limit),
+        page: Number(page),
+        limit: Number(limit),
         totalPages: Math.ceil(total / Number(limit)),
       },
     });
@@ -165,9 +165,9 @@ exports.create = async (req, res, next) => {
 
     // Build ownerContact from body
     const ownerContact = {
-      name:     req.body.contactName     || '',
-      phone:    req.body.contactPhone    || '',
-      email:    req.body.contactEmail    || '',
+      name: req.body.contactName || '',
+      phone: req.body.contactPhone || '',
+      email: req.body.contactEmail || '',
       whatsapp: req.body.contactWhatsapp || '',
     };
 
@@ -216,9 +216,9 @@ exports.update = async (req, res, next) => {
 
     // Merge ownerContact
     const ownerContact = {
-      name:     req.body.contactName     || listing.ownerContact?.name     || '',
-      phone:    req.body.contactPhone    || listing.ownerContact?.phone    || '',
-      email:    req.body.contactEmail    || listing.ownerContact?.email    || '',
+      name: req.body.contactName || listing.ownerContact?.name || '',
+      phone: req.body.contactPhone || listing.ownerContact?.phone || '',
+      email: req.body.contactEmail || listing.ownerContact?.email || '',
       whatsapp: req.body.contactWhatsapp || listing.ownerContact?.whatsapp || '',
     };
 
@@ -239,7 +239,7 @@ exports.update = async (req, res, next) => {
 
       const uploadPromises = req.files.map(f => uploadToCloudinary(f.buffer));
       const results = await Promise.all(uploadPromises);
-      
+
       listing.image = { url: results[0].secure_url, filename: results[0].public_id };
       listing.roomImages = results.slice(1).map(r => ({ url: r.secure_url, filename: r.public_id }));
     }

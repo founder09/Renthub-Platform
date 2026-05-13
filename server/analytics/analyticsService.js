@@ -2,11 +2,11 @@
  * Analytics Service — MongoDB aggregation pipelines for owner, tenant, and admin.
  * Results are cached to prevent repeated heavy queries.
  */
-const Booking      = require('../models/Booking');
-const Listing      = require('../models/Listing');
-const User         = require('../models/User');
+const Booking = require('../models/Booking');
+const Listing = require('../models/Listing');
+const User = require('../models/User');
 const Notification = require('../models/Notification');
-const cache        = require('../cache/cacheClient');
+const cache = require('../cache/cacheClient');
 
 const CACHE_TTL = 5 * 60; // 5 minutes
 
@@ -14,7 +14,7 @@ const CACHE_TTL = 5 * 60; // 5 minutes
 
 async function getOwnerAnalytics(ownerId) {
   const cacheKey = `analytics:owner:${ownerId}`;
-  const cached   = await cache.get(cacheKey);
+  const cached = await cache.get(cacheKey);
   if (cached) return cached;
 
   const ownerObjId = ownerId;
@@ -46,10 +46,10 @@ async function getOwnerAnalytics(ownerId) {
       {
         $group: {
           _id: {
-            year:  { $year: '$createdAt' },
+            year: { $year: '$createdAt' },
             month: { $month: '$createdAt' },
           },
-          revenue:  { $sum: '$totalAmount' },
+          revenue: { $sum: '$totalAmount' },
           bookings: { $sum: 1 },
         },
       },
@@ -71,12 +71,12 @@ async function getOwnerAnalytics(ownerId) {
       { $unwind: { path: '$listing', preserveNullAndEmptyArrays: true } },
       {
         $project: {
-          title:        '$listing.title',
-          location:     '$listing.location',
-          image:        '$listing.image',
-          price:        '$listing.price',
+          title: '$listing.title',
+          location: '$listing.location',
+          image: '$listing.image',
+          price: '$listing.price',
           bookingCount: 1,
-          revenue:      1,
+          revenue: 1,
         },
       },
     ]),
@@ -97,7 +97,7 @@ async function getOwnerAnalytics(ownerId) {
       {
         $group: {
           _id: null,
-          total:     { $sum: 1 },
+          total: { $sum: 1 },
           cancelled: { $sum: { $cond: [{ $eq: ['$bookingStatus', 'cancelled'] }, 1, 0] } },
         },
       },
@@ -107,25 +107,25 @@ async function getOwnerAnalytics(ownerId) {
   // Format monthly earnings for recharts
   const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   const earningsChart = monthlyEarnings.map(m => ({
-    month:    MONTHS[m._id.month - 1],
-    revenue:  m.revenue,
+    month: MONTHS[m._id.month - 1],
+    revenue: m.revenue,
     bookings: m.bookings,
   }));
 
   // Summary stats
-  const totalRevenue  = bookingStats.reduce((s, b) => b._id === 'accepted' || b._id === 'completed' ? s + b.revenue : s, 0);
+  const totalRevenue = bookingStats.reduce((s, b) => b._id === 'accepted' || b._id === 'completed' ? s + b.revenue : s, 0);
   const totalBookings = bookingStats.reduce((s, b) => s + b.count, 0);
-  const pending       = bookingStats.find(b => b._id === 'pending')?.count || 0;
-  const cancRate      = cancellationRate[0]
+  const pending = bookingStats.find(b => b._id === 'pending')?.count || 0;
+  const cancRate = cancellationRate[0]
     ? ((cancellationRate[0].cancelled / cancellationRate[0].total) * 100).toFixed(1)
     : 0;
 
   const result = {
     summary: {
-      totalListings:    listingCount,
+      totalListings: listingCount,
       totalBookings,
       totalRevenue,
-      pendingRequests:  pending,
+      pendingRequests: pending,
       cancellationRate: Number(cancRate),
     },
     earningsChart,
@@ -142,7 +142,7 @@ async function getOwnerAnalytics(ownerId) {
 
 async function getTenantAnalytics(tenantId) {
   const cacheKey = `analytics:tenant:${tenantId}`;
-  const cached   = await cache.get(cacheKey);
+  const cached = await cache.get(cacheKey);
   if (cached) return cached;
 
   const [spendingStats, statusDist, monthlySpend, savedCount] = await Promise.all([
@@ -177,8 +177,8 @@ async function getTenantAnalytics(tenantId) {
 
   const result = {
     summary: {
-      totalSpent:    spendingStats[0]?.totalSpent    || 0,
-      totalBookings: spendingStats[0]?.bookingCount  || 0,
+      totalSpent: spendingStats[0]?.totalSpent || 0,
+      totalBookings: spendingStats[0]?.bookingCount || 0,
       savedListings: savedCount,
     },
     statusDistribution: statusDist.map(s => ({ name: s._id, value: s.count })),
@@ -196,7 +196,7 @@ async function getTenantAnalytics(tenantId) {
 
 async function getAdminAnalytics() {
   const cacheKey = 'analytics:admin:global';
-  const cached   = await cache.get(cacheKey);
+  const cached = await cache.get(cacheKey);
   if (cached) return cached;
 
   const [
@@ -223,9 +223,9 @@ async function getAdminAnalytics() {
       },
       {
         $group: {
-          _id:      { year: { $year: '$createdAt' }, month: { $month: '$createdAt' } },
+          _id: { year: { $year: '$createdAt' }, month: { $month: '$createdAt' } },
           bookings: { $sum: 1 },
-          revenue:  { $sum: { $cond: [{ $eq: ['$paymentStatus', 'paid'] }, '$totalAmount', 0] } },
+          revenue: { $sum: { $cond: [{ $eq: ['$paymentStatus', 'paid'] }, '$totalAmount', 0] } },
         },
       },
       { $sort: { '_id.year': 1, '_id.month': 1 } },
@@ -237,7 +237,7 @@ async function getAdminAnalytics() {
       },
       {
         $group: {
-          _id:   { year: { $year: '$createdAt' }, month: { $month: '$createdAt' } },
+          _id: { year: { $year: '$createdAt' }, month: { $month: '$createdAt' } },
           users: { $sum: 1 },
         },
       },
@@ -262,9 +262,9 @@ async function getAdminAnalytics() {
       { $unwind: { path: '$listing', preserveNullAndEmptyArrays: true } },
       {
         $group: {
-          _id:     '$listing.listingType',
+          _id: '$listing.listingType',
           revenue: { $sum: '$totalAmount' },
-          count:   { $sum: 1 },
+          count: { $sum: 1 },
         },
       },
     ]),
@@ -281,14 +281,14 @@ async function getAdminAnalytics() {
       totalUsers,
       totalListings,
       totalBookings,
-      totalRevenue:    totalRevenueAgg[0]?.total || 0,
+      totalRevenue: totalRevenueAgg[0]?.total || 0,
       pendingBookings,
     },
-    bookingsChart:   formatMonthly(monthlyBookings, 'bookings'),
-    revenueChart:    formatMonthly(monthlyBookings, 'revenue'),
+    bookingsChart: formatMonthly(monthlyBookings, 'bookings'),
+    revenueChart: formatMonthly(monthlyBookings, 'revenue'),
     userGrowthChart: formatMonthly(userGrowth, 'users'),
-    topCities:       topCities.map(c => ({ city: c._id || 'Unknown', count: c.count })),
-    revenueByType:   revenueByPlan.map(r => ({ name: r._id || 'Other', revenue: r.revenue, count: r.count })),
+    topCities: topCities.map(c => ({ city: c._id || 'Unknown', count: c.count })),
+    revenueByType: revenueByPlan.map(r => ({ name: r._id || 'Other', revenue: r.revenue, count: r.count })),
   };
 
   await cache.set(cacheKey, result, CACHE_TTL);
@@ -298,7 +298,7 @@ async function getAdminAnalytics() {
 /** Invalidate analytics cache for a user (call after booking/listing changes). */
 async function invalidateAnalytics(ownerId, tenantId) {
   await Promise.all([
-    ownerId  ? cache.del(`analytics:owner:${ownerId}`)   : Promise.resolve(),
+    ownerId ? cache.del(`analytics:owner:${ownerId}`) : Promise.resolve(),
     tenantId ? cache.del(`analytics:tenant:${tenantId}`) : Promise.resolve(),
     cache.del('analytics:admin:global'),
   ]);

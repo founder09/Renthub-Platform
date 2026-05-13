@@ -1,5 +1,5 @@
 const paymentService = require('../services/paymentService');
-const ExpressError   = require('../utils/ExpressError');
+const ExpressError = require('../utils/ExpressError');
 
 // ── Create Razorpay Order ─────────────────────────────────────────────────────
 exports.createOrder = async (req, res, next) => {
@@ -10,11 +10,11 @@ exports.createOrder = async (req, res, next) => {
     res.json({
       success: true,
       data: {
-        orderId:   order.id,
-        amount:    order.amount,
-        currency:  order.currency,
+        orderId: order.id,
+        amount: order.amount,
+        currency: order.currency,
         bookingId: booking._id,
-        keyId:     process.env.RAZORPAY_KEY_ID,
+        keyId: process.env.RAZORPAY_KEY_ID,
       },
     });
   } catch (err) {

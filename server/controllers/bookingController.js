@@ -1,5 +1,5 @@
 const bookingService = require('../services/bookingService');
-const ExpressError   = require('../utils/ExpressError');
+const ExpressError = require('../utils/ExpressError');
 
 // ── Create Booking (Tenant) ───────────────────────────────────────────────────
 exports.createBooking = async (req, res, next) => {

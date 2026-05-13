@@ -1,4 +1,4 @@
-const aiSvc        = require('../ai/aiService');
+const aiSvc = require('../ai/aiService');
 const ExpressError = require('../utils/ExpressError');
 
 // ── Smart Recommendations ─────────────────────────────────────────────────────
@@ -8,13 +8,13 @@ exports.getRecommendations = async (req, res, next) => {
     const amenityArr = amenities ? amenities.split(',').map(a => a.trim()).filter(Boolean) : [];
 
     const recommendations = await aiSvc.getSmartRecommendations({
-      userId:      req.user?._id,
+      userId: req.user?._id,
       budget,
       location,
-      amenities:   amenityArr,
+      amenities: amenityArr,
       college,
       listingType,
-      limit:       Number(limit) || 6,
+      limit: Number(limit) || 6,
     });
 
     res.json({ success: true, data: recommendations, engine: 'RentHub AI v1' });

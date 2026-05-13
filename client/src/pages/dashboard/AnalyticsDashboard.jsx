@@ -74,7 +74,7 @@ const CustomTooltip = ({ active, payload, label }) => {
 
 // ── OWNER ANALYTICS ───────────────────────────────────────────────────────────
 function OwnerAnalyticsDashboard({ planId }) {
-  const [data,    setData]    = useState(null);
+  const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const isPro = planId === 'pro' || planId === 'business';
 
@@ -91,7 +91,7 @@ function OwnerAnalyticsDashboard({ planId }) {
 
   if (loading) return (
     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 16 }}>
-      {[1,2,3,4].map(i => (
+      {[1, 2, 3, 4].map(i => (
         <div key={i} style={{ height: 100, background: 'var(--bg-muted)', borderRadius: 16, animation: 'pulse 1.5s infinite' }} />
       ))}
     </div>
@@ -116,10 +116,10 @@ function OwnerAnalyticsDashboard({ planId }) {
 
       {/* Stats */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 16 }}>
-        <StatCard icon={<Home size={22} />}       label="Total Listings"  value={summary.totalListings}  color="#6366f1" />
-        <StatCard icon={<Calendar size={22} />}   label="Total Bookings"  value={summary.totalBookings}  color="#22d3ee" />
-        <StatCard icon={<DollarSign size={22} />} label="Total Revenue"   value={`₹${summary.totalRevenue.toLocaleString('en-IN')}`} color="#10b981" />
-        <StatCard icon={<Users size={22} />}      label="Pending Requests" value={summary.pendingRequests} color="#f59e0b" sub={`${summary.cancellationRate}% cancellation rate`} />
+        <StatCard icon={<Home size={22} />} label="Total Listings" value={summary.totalListings} color="#6366f1" />
+        <StatCard icon={<Calendar size={22} />} label="Total Bookings" value={summary.totalBookings} color="#22d3ee" />
+        <StatCard icon={<DollarSign size={22} />} label="Total Revenue" value={`₹${summary.totalRevenue.toLocaleString('en-IN')}`} color="#10b981" />
+        <StatCard icon={<Users size={22} />} label="Pending Requests" value={summary.pendingRequests} color="#f59e0b" sub={`${summary.cancellationRate}% cancellation rate`} />
       </div>
 
       {/* Charts row 1 */}
@@ -130,7 +130,7 @@ function OwnerAnalyticsDashboard({ planId }) {
               <AreaChart data={earningsChart}>
                 <defs>
                   <linearGradient id="revGrad" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%"  stopColor="#6366f1" stopOpacity={0.2} />
+                    <stop offset="5%" stopColor="#6366f1" stopOpacity={0.2} />
                     <stop offset="95%" stopColor="#6366f1" stopOpacity={0} />
                   </linearGradient>
                 </defs>
@@ -190,7 +190,7 @@ function OwnerAnalyticsDashboard({ planId }) {
 
 // ── TENANT ANALYTICS ──────────────────────────────────────────────────────────
 function TenantAnalyticsDashboard() {
-  const [data,    setData]    = useState(null);
+  const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => { fetchData(); }, []);
@@ -206,7 +206,7 @@ function TenantAnalyticsDashboard() {
 
   if (loading) return (
     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 16 }}>
-      {[1,2,3].map(i => (
+      {[1, 2, 3].map(i => (
         <div key={i} style={{ height: 100, background: 'var(--bg-muted)', borderRadius: 16, animation: 'pulse 1.5s infinite' }} />
       ))}
     </div>
@@ -221,9 +221,9 @@ function TenantAnalyticsDashboard() {
       <h1 style={{ margin: 0, fontSize: 24, fontWeight: 700, color: 'var(--text-primary)' }}>My Analytics</h1>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 16 }}>
-        <StatCard icon={<DollarSign size={22} />} label="Total Spent"     value={`₹${summary.totalSpent.toLocaleString('en-IN')}`} color="#6366f1" />
-        <StatCard icon={<Calendar size={22} />}   label="Total Bookings"  value={summary.totalBookings} color="#22d3ee" />
-        <StatCard icon={<Home size={22} />}       label="Saved Listings"  value={summary.savedListings} color="#10b981" />
+        <StatCard icon={<DollarSign size={22} />} label="Total Spent" value={`₹${summary.totalSpent.toLocaleString('en-IN')}`} color="#6366f1" />
+        <StatCard icon={<Calendar size={22} />} label="Total Bookings" value={summary.totalBookings} color="#22d3ee" />
+        <StatCard icon={<Home size={22} />} label="Saved Listings" value={summary.savedListings} color="#10b981" />
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: 20 }}>
@@ -270,7 +270,7 @@ export default function AnalyticsDashboard() {
 
   useEffect(() => {
     import('../../api/subscriptionsApi').then(({ getMySubscription }) =>
-      getMySubscription().then(({ data }) => setPlanId(data.data?.subscription?.planId || 'free')).catch(() => {})
+      getMySubscription().then(({ data }) => setPlanId(data.data?.subscription?.planId || 'free')).catch(() => { })
     );
   }, []);
 

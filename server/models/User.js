@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
-const bcrypt    = require('bcryptjs');
-const jwt       = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 const COLLEGES = [
   'IIT Delhi', 'IIT Bombay', 'IIT Madras', 'NIT Trichy',
@@ -9,15 +9,15 @@ const COLLEGES = [
 ];
 
 const userSchema = new mongoose.Schema({
-  username:     { type: String, required: true, unique: true, trim: true },
-  email:        { type: String, required: true, unique: true, lowercase: true, trim: true },
-  password:     { type: String, required: true, minlength: 6 },
-  phone:        { type: String, default: '' },
-  college:      { type: String, enum: [...COLLEGES, ''], default: '' },
-  role:         { type: String, enum: ['tenant', 'owner', 'admin'], default: 'tenant' },
-  isVerified:   { type: Boolean, default: false },
-  avatar:       { type: String, default: '' },
-  ownerProof:   { type: String, default: '' },
+  username: { type: String, required: true, unique: true, trim: true },
+  email: { type: String, required: true, unique: true, lowercase: true, trim: true },
+  password: { type: String, required: true, minlength: 6 },
+  phone: { type: String, default: '' },
+  college: { type: String, enum: [...COLLEGES, ''], default: '' },
+  role: { type: String, enum: ['tenant', 'owner', 'admin'], default: 'tenant' },
+  isVerified: { type: Boolean, default: false },
+  avatar: { type: String, default: '' },
+  ownerProof: { type: String, default: '' },
   savedListings: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Listing' }],
 }, { timestamps: true });
 

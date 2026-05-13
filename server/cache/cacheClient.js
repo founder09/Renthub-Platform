@@ -18,16 +18,16 @@ const NodeCache = require('node-cache');
 const memCache = new NodeCache({ stdTTL: 300, checkperiod: 60, useClones: false });
 
 let redisClient = null;
-let useRedis    = false;
+let useRedis = false;
 
 // ── Try connecting to Redis ───────────────────────────────────────────────────
 if (process.env.REDIS_URL) {
   try {
     const Redis = require('ioredis');
     redisClient = new Redis(process.env.REDIS_URL, {
-      lazyConnect:         true,
-      enableOfflineQueue:  false,
-      retryStrategy:       (times) => (times > 3 ? null : times * 200),
+      lazyConnect: true,
+      enableOfflineQueue: false,
+      retryStrategy: (times) => (times > 3 ? null : times * 200),
       maxRetriesPerRequest: 1,
     });
 

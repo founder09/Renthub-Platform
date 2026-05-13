@@ -16,13 +16,13 @@ const AMENITIES_LIST = ['WiFi', 'AC', 'Meals', 'Laundry', 'Parking', 'Gym', 'CCT
 const AMENITY_ICONS = { WiFi: '📶', AC: '❄️', Meals: '🍽', Laundry: '🫧', Parking: '🅿️', Gym: '💪', CCTV: '📹', Furnished: '🛋' }
 
 export default function ListingEdit() {
-  const { id }     = useParams()
-  const navigate   = useNavigate()
+  const { id } = useParams()
+  const navigate = useNavigate()
   const { register, handleSubmit, reset, formState: { errors } } = useForm()
-  const [listing,    setListing]   = useState(null)
-  const [loading,    setLoading]   = useState(true)
+  const [listing, setListing] = useState(null)
+  const [loading, setLoading] = useState(true)
   const [submitting, setSubmitting] = useState(false)
-  const [previews,   setPreviews]   = useState([])
+  const [previews, setPreviews] = useState([])
   const [selectedAmenities, setSelectedAmenities] = useState([])
 
   useEffect(() => {
@@ -33,20 +33,20 @@ export default function ListingEdit() {
         setListing(l)
         setSelectedAmenities(l.amenities || [])
         reset({
-          title:       l.title,
+          title: l.title,
           description: l.description,
           listingType: l.listingType,
-          gender:      l.gender,
-          bedrooms:    l.bedrooms,
-          bathrooms:   l.bathrooms,
-          maxGuests:   l.maxGuests,
-          floorSize:   l.floorSize,
-          price:       l.price,
+          gender: l.gender,
+          bedrooms: l.bedrooms,
+          bathrooms: l.bathrooms,
+          maxGuests: l.maxGuests,
+          floorSize: l.floorSize,
+          price: l.price,
           securityDeposit: l.securityDeposit,
-          location:    l.location,
-          country:     l.country,
+          location: l.location,
+          country: l.country,
           nearCollege: l.nearCollege,
-          houseRules:  (l.houseRules || []).join(', '),
+          houseRules: (l.houseRules || []).join(', '),
           availableFrom: l.availableFrom ? new Date(l.availableFrom).toISOString().split('T')[0] : '',
           contactName: l.ownerContact?.name || '',
           contactPhone: l.ownerContact?.phone || '',
@@ -96,7 +96,7 @@ export default function ListingEdit() {
   return (
     <div className="container-main max-w-3xl">
       <nav className="text-sm text-slate-400 mb-6 flex items-center gap-2">
-        <Link to="/listings"      className="hover:text-rose-500 transition-colors">Listings</Link>
+        <Link to="/listings" className="hover:text-rose-500 transition-colors">Listings</Link>
         <span>›</span>
         <Link to={`/listings/${id}`} className="hover:text-rose-500 transition-colors truncate max-w-[10rem]">{listing?.title}</Link>
         <span>›</span>
@@ -113,17 +113,17 @@ export default function ListingEdit() {
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <img src={listing.image.url.replace('/upload', '/upload/w_600')} alt="Cover" className="h-24 w-full object-cover rounded-xl border border-slate-100" onError={(e) => { e.target.src = FALLBACK }} />
               {listing.roomImages?.map((img, i) => (
-                <img key={i} src={img.url.replace('/upload', '/upload/w_600')} alt={`Room ${i+1}`} className="h-24 w-full object-cover rounded-xl border border-slate-100" onError={(e) => { e.target.src = FALLBACK }} />
+                <img key={i} src={img.url.replace('/upload', '/upload/w_600')} alt={`Room ${i + 1}`} className="h-24 w-full object-cover rounded-xl border border-slate-100" onError={(e) => { e.target.src = FALLBACK }} />
               ))}
             </div>
           </div>
         )}
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
-          
+
           <section className="space-y-5 border-b pb-6" style={{ borderColor: 'var(--border-default)' }}>
             <h2 className="text-lg font-bold" style={{ color: 'var(--text-primary)' }}>Basic Information</h2>
-            
+
             <div>
               <label className="label" htmlFor="title">Title *</label>
               <input id="title" className={`input ${errors.title ? 'border-red-400' : ''}`}

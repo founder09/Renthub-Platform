@@ -17,12 +17,12 @@ const NOTIFICATION_TYPES = [
 
 const notificationSchema = new mongoose.Schema({
   recipientId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-  senderId:    { type: mongoose.Schema.Types.ObjectId, ref: 'User', default: null },
+  senderId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', default: null },
 
-  type:    { type: String, enum: NOTIFICATION_TYPES, required: true },
-  title:   { type: String, required: true },
+  type: { type: String, enum: NOTIFICATION_TYPES, required: true },
+  title: { type: String, required: true },
   message: { type: String, required: true },
-  isRead:  { type: Boolean, default: false },
+  isRead: { type: Boolean, default: false },
 
   relatedBooking: { type: mongoose.Schema.Types.ObjectId, ref: 'Booking', default: null },
   relatedListing: { type: mongoose.Schema.Types.ObjectId, ref: 'Listing', default: null },

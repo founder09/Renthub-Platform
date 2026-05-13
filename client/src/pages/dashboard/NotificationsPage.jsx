@@ -4,15 +4,15 @@ import toast from 'react-hot-toast';
 import { CheckCheck, Trash2, Bell, RefreshCw } from 'lucide-react';
 
 const TYPE_ICONS = {
-  BOOKING_SUBMITTED:         '📩',
-  BOOKING_ACCEPTED:          '✅',
-  BOOKING_REJECTED:          '❌',
-  PAYMENT_SUCCESS:           '💰',
-  BOOKING_CANCELLED:         '🚫',
-  NEW_BOOKING_REQUEST:       '🔔',
-  PAYMENT_RECEIVED:          '💵',
+  BOOKING_SUBMITTED: '📩',
+  BOOKING_ACCEPTED: '✅',
+  BOOKING_REJECTED: '❌',
+  PAYMENT_SUCCESS: '💰',
+  BOOKING_CANCELLED: '🚫',
+  NEW_BOOKING_REQUEST: '🔔',
+  PAYMENT_RECEIVED: '💵',
   BOOKING_CANCELLED_BY_TENANT: '🚫',
-  SYSTEM_ALERT:              '⚠️',
+  SYSTEM_ALERT: '⚠️',
 };
 
 function timeAgo(dateStr) {
@@ -26,11 +26,11 @@ function timeAgo(dateStr) {
 }
 
 export default function NotificationsPage() {
-  const [notifs,   setNotifs]   = useState([]);
-  const [loading,  setLoading]  = useState(true);
-  const [page,     setPage]     = useState(1);
-  const [total,    setTotal]    = useState(0);
-  const [unread,   setUnread]   = useState(0);
+  const [notifs, setNotifs] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState(1);
+  const [total, setTotal] = useState(0);
+  const [unread, setUnread] = useState(0);
   const LIMIT = 20;
 
   const fetch = async () => {

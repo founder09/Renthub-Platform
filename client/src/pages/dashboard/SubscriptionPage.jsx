@@ -83,9 +83,9 @@ function loadRazorpay() {
 
 export default function SubscriptionPage() {
   const { user } = useAuth();
-  const [sub,     setSub]     = useState(null);
+  const [sub, setSub] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [paying,  setPaying]  = useState(null); // planId being processed
+  const [paying, setPaying] = useState(null); // planId being processed
 
   useEffect(() => {
     fetchSub();
@@ -112,18 +112,18 @@ export default function SubscriptionPage() {
       const { order, plan, keyId } = data.data;
 
       const opts = {
-        key:      keyId,
-        amount:   order.amount,
+        key: keyId,
+        amount: order.amount,
         currency: order.currency,
-        name:     'RentHub',
+        name: 'RentHub',
         description: `${plan.name} Plan Subscription`,
         order_id: order.id,
         prefill: { name: user.username, email: user.email },
-        theme:   { color: '#6366f1' },
+        theme: { color: '#6366f1' },
         handler: async (response) => {
           try {
             await verifySubscriptionPay({
-              razorpayOrderId:   response.razorpay_order_id,
+              razorpayOrderId: response.razorpay_order_id,
               razorpayPaymentId: response.razorpay_payment_id,
               razorpaySignature: response.razorpay_signature,
               planId,
@@ -145,7 +145,7 @@ export default function SubscriptionPage() {
   };
 
   const currentPlan = sub?.subscription?.planId || 'free';
-  const isActive    = sub?.isActive !== false;
+  const isActive = sub?.isActive !== false;
 
   return (
     <div style={{ animation: 'fadeInUp 0.3s ease' }}>
@@ -313,8 +313,8 @@ export default function SubscriptionPage() {
                   {vals.map((v, j) => (
                     <td key={j} style={{ padding: '14px 20px', textAlign: 'center', fontSize: 14 }}>
                       {v === '✓' ? <span style={{ color: '#22c55e', fontWeight: 700 }}>✓</span>
-                       : v === '✕' ? <span style={{ color: '#e2e8f0' }}>—</span>
-                       : <span style={{ color: 'var(--text-primary)', fontWeight: 600 }}>{v}</span>}
+                        : v === '✕' ? <span style={{ color: '#e2e8f0' }}>—</span>
+                          : <span style={{ color: 'var(--text-primary)', fontWeight: 600 }}>{v}</span>}
                     </td>
                   ))}
                 </tr>

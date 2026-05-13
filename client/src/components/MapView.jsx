@@ -6,7 +6,7 @@ mapboxgl.accessToken = import.meta.env.VITE_MAP_TOKEN
 
 export default function MapView({ geometry, title, location }) {
   const mapContainer = useRef(null)
-  const mapRef       = useRef(null)
+  const mapRef = useRef(null)
 
   useEffect(() => {
     if (mapRef.current || !geometry?.coordinates) return
@@ -15,9 +15,9 @@ export default function MapView({ geometry, title, location }) {
 
     mapRef.current = new mapboxgl.Map({
       container: mapContainer.current,
-      style:     'mapbox://styles/mapbox/light-v11',
-      center:    [lng, lat],
-      zoom:      9,
+      style: 'mapbox://styles/mapbox/light-v11',
+      center: [lng, lat],
+      zoom: 9,
     })
 
     mapRef.current.addControl(new mapboxgl.NavigationControl(), 'top-right')

@@ -17,8 +17,8 @@ export default function ListingNew() {
   const navigate = useNavigate()
   const { user } = useAuth()
   const { register, handleSubmit, formState: { errors } } = useForm()
-  const [submitting,      setSubmitting]      = useState(false)
-  const [previews,        setPreviews]        = useState([])
+  const [submitting, setSubmitting] = useState(false)
+  const [previews, setPreviews] = useState([])
   const [selectedAmenities, setSelectedAmenities] = useState([])
 
   if (user?.role === 'owner' && !user?.isVerified) {
@@ -59,7 +59,7 @@ export default function ListingNew() {
         }
       })
       formData.append('amenities', selectedAmenities.join(','))
-      
+
       const { data: res } = await createListing(formData)
       toast.success('🎉 Listing created!')
       navigate(`/listings/${res.data._id}`)
@@ -83,11 +83,11 @@ export default function ListingNew() {
         <p className="text-sm mb-8" style={{ color: 'var(--text-muted)' }}>Fill in the details to list your property for students.</p>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
-          
+
           {/* Section 1: Basic Info */}
           <section className="space-y-5 border-b pb-6" style={{ borderColor: 'var(--border-default)' }}>
             <h2 className="text-lg font-bold" style={{ color: 'var(--text-primary)' }}>Basic Information</h2>
-            
+
             <div>
               <label className="label" htmlFor="title">Title *</label>
               <input id="title" className={`input ${errors.title ? 'border-red-400' : ''}`}

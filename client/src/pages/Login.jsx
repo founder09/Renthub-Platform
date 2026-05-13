@@ -7,11 +7,11 @@ import toast from 'react-hot-toast'
 import { Eye, EyeOff, ArrowRight } from 'lucide-react'
 
 export default function Login() {
-  const { login }  = useAuth()
-  const navigate   = useNavigate()
+  const { login } = useAuth()
+  const navigate = useNavigate()
   const { register, handleSubmit, formState: { errors } } = useForm()
   const [submitting, setSubmitting] = useState(false)
-  const [showPass,   setShowPass]   = useState(false)
+  const [showPass, setShowPass] = useState(false)
 
   const onSubmit = async (data) => {
     setSubmitting(true)

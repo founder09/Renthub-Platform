@@ -13,9 +13,9 @@ const COLLEGES = [
 ]
 
 const PERKS = [
-  { icon: <Zap size={16} />,          text: 'Free forever for students' },
-  { icon: <ShieldCheck size={16} />,  text: 'Verified listings only'    },
-  { icon: <GraduationCap size={16} />, text: 'Campus-specific search'   },
+  { icon: <Zap size={16} />, text: 'Free forever for students' },
+  { icon: <ShieldCheck size={16} />, text: 'Verified listings only' },
+  { icon: <GraduationCap size={16} />, text: 'Campus-specific search' },
 ]
 
 export default function Signup() {
@@ -23,7 +23,7 @@ export default function Signup() {
   const navigate = useNavigate()
   const { register, handleSubmit, watch, formState: { errors } } = useForm({ defaultValues: { role: 'tenant' } })
   const [submitting, setSubmitting] = useState(false)
-  const [showPass,   setShowPass]   = useState(false)
+  const [showPass, setShowPass] = useState(false)
 
   const onSubmit = async (data) => {
     setSubmitting(true)

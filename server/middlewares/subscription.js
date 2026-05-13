@@ -6,7 +6,7 @@
  * checkListingLimit             → prevents free users exceeding 2 listings
  */
 const { getOrCreateSubscription } = require('../services/subscriptionService');
-const { PLANS }   = require('../models/Subscription');
+const { PLANS } = require('../models/Subscription');
 const ExpressError = require('../utils/ExpressError');
 
 const PLAN_HIERARCHY = { free: 0, pro: 1, business: 2 };
@@ -17,7 +17,7 @@ const PLAN_HIERARCHY = { free: 0, pro: 1, business: 2 };
  */
 exports.requireSubscription = (minPlan) => async (req, res, next) => {
   try {
-    const sub  = await getOrCreateSubscription(req.user._id);
+    const sub = await getOrCreateSubscription(req.user._id);
     const plan = PLANS[sub.planId] || PLANS.free;
 
     if (!sub.isActive()) {
@@ -25,14 +25,14 @@ exports.requireSubscription = (minPlan) => async (req, res, next) => {
     }
 
     const userLevel = PLAN_HIERARCHY[sub.planId] || 0;
-    const minLevel  = PLAN_HIERARCHY[minPlan]    || 1;
+    const minLevel = PLAN_HIERARCHY[minPlan] || 1;
 
     if (userLevel < minLevel) {
       return next(new ExpressError(403, `This feature requires the ${PLANS[minPlan]?.name || minPlan} plan. Please upgrade.`));
     }
 
     req.subscription = sub;
-    req.plan         = plan;
+    req.plan = plan;
     next();
   } catch (err) {
     next(err);
@@ -44,7 +44,7 @@ exports.requireSubscription = (minPlan) => async (req, res, next) => {
  */
 exports.requireFeature = (feature) => async (req, res, next) => {
   try {
-    const sub  = await getOrCreateSubscription(req.user._id);
+    const sub = await getOrCreateSubscription(req.user._id);
     const plan = PLANS[sub.planId] || PLANS.free;
 
     if (!plan.features[feature]) {
@@ -52,7 +52,7 @@ exports.requireFeature = (feature) => async (req, res, next) => {
     }
 
     req.subscription = sub;
-    req.plan         = plan;
+    req.plan = plan;
     next();
   } catch (err) {
     next(err);
@@ -70,10 +70,10 @@ exports.checkListingLimit = async (req, res, next) => {
 
     if (!result.allowed) {
       return res.status(403).json({
-        success:     false,
-        message:     result.message,
+        success: false,
+        message: result.message,
         currentPlan: result.currentPlan,
-        upgradeUrl:  '/pricing',
+        upgradeUrl: '/pricing',
       });
     }
 
@@ -90,9 +90,9 @@ exports.checkListingLimit = async (req, res, next) => {
 exports.attachSubscription = async (req, res, next) => {
   try {
     if (req.user) {
-      const sub    = await getOrCreateSubscription(req.user._id);
+      const sub = await getOrCreateSubscription(req.user._id);
       req.subscription = sub;
-      req.plan         = PLANS[sub.planId] || PLANS.free;
+      req.plan = PLANS[sub.planId] || PLANS.free;
     }
     next();
   } catch {

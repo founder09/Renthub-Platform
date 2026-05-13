@@ -7,11 +7,11 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 const FEATURE_COPY = {
-  aiFeatures:        { title: 'AI Features require Pro', desc: 'Unlock AI description generator, smart recommendations, and more.' },
-  analyticsAccess:   { title: 'Advanced Analytics require Pro', desc: 'Get detailed revenue charts, booking trends, and performance insights.' },
-  featuredListings:  { title: 'Featured Listings require Pro', desc: 'Boost your property to the top of search results.' },
-  maxListings:       { title: 'Listing Limit Reached', desc: 'Free plan allows 2 listings. Upgrade for unlimited.' },
-  default:           { title: 'Upgrade to unlock this feature', desc: 'Get more from RentHub with a premium subscription.' },
+  aiFeatures: { title: 'AI Features require Pro', desc: 'Unlock AI description generator, smart recommendations, and more.' },
+  analyticsAccess: { title: 'Advanced Analytics require Pro', desc: 'Get detailed revenue charts, booking trends, and performance insights.' },
+  featuredListings: { title: 'Featured Listings require Pro', desc: 'Boost your property to the top of search results.' },
+  maxListings: { title: 'Listing Limit Reached', desc: 'Free plan allows 2 listings. Upgrade for unlimited.' },
+  default: { title: 'Upgrade to unlock this feature', desc: 'Get more from RentHub with a premium subscription.' },
 };
 
 export default function UpgradeBanner({ feature = 'default', dismissible = true }) {

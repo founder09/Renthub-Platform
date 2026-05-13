@@ -5,14 +5,14 @@ import ListingCard from './ListingCard';
 import { Sparkles, ChevronRight } from 'lucide-react';
 
 export default function AIRecommendations({ budget, location, amenities, college, savedIds, onToggleSave }) {
-  const [recs,    setRecs]    = useState([]);
+  const [recs, setRecs] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     let cancelled = false;
     getRecommendations({ budget, location, amenities, college, limit: 4 })
       .then(({ data }) => { if (!cancelled) setRecs(data.data || []); })
-      .catch(() => {})
+      .catch(() => { })
       .finally(() => { if (!cancelled) setLoading(false); });
     return () => { cancelled = true; };
   }, [budget, location, college]);
@@ -40,7 +40,7 @@ export default function AIRecommendations({ budget, location, amenities, college
       {/* Cards */}
       {loading ? (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: 16 }}>
-          {[1,2,3,4].map(i => (
+          {[1, 2, 3, 4].map(i => (
             <div key={i} style={{ height: 260, background: 'var(--border-default)', borderRadius: 16, animation: 'shimmer 1.6s ease-in-out infinite' }} className="skeleton" />
           ))}
         </div>

@@ -10,8 +10,8 @@ const SubscriptionContext = createContext(null);
 
 export function SubscriptionProvider({ children }) {
   const { user } = useAuth();
-  const [sub,     setSub]     = useState(null);
-  const [plan,    setPlan]    = useState(null);
+  const [sub, setSub] = useState(null);
+  const [plan, setPlan] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -21,7 +21,7 @@ export function SubscriptionProvider({ children }) {
         setSub(data.data.subscription);
         setPlan(data.data.plan);
       })
-      .catch(() => {})
+      .catch(() => { })
       .finally(() => setLoading(false));
   }, [user]);
 
@@ -29,13 +29,13 @@ export function SubscriptionProvider({ children }) {
     if (!user) return;
     getMySubscription()
       .then(({ data }) => { setSub(data.data.subscription); setPlan(data.data.plan); })
-      .catch(() => {});
+      .catch(() => { });
   };
 
   const hasFeature = (feature) => plan?.features?.[feature] || false;
-  const isPro      = sub?.planId === 'pro' || sub?.planId === 'business';
+  const isPro = sub?.planId === 'pro' || sub?.planId === 'business';
   const isBusiness = sub?.planId === 'business';
-  const planId     = sub?.planId || 'free';
+  const planId = sub?.planId || 'free';
 
   return (
     <SubscriptionContext.Provider value={{ sub, plan, loading, refresh, hasFeature, isPro, isBusiness, planId }}>

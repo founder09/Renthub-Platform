@@ -1,5 +1,5 @@
-const Booking  = require('../models/Booking');
-const Listing  = require('../models/Listing');
+const Booking = require('../models/Booking');
+const Listing = require('../models/Listing');
 const notifSvc = require('./notificationService');
 
 /**
@@ -7,11 +7,11 @@ const notifSvc = require('./notificationService');
  * Uses monthly price and number of months derived from dates.
  */
 function calcTotalAmount(pricePerMonth, securityDeposit, checkInDate, checkOutDate) {
-  const msPerDay   = 1000 * 60 * 60 * 24;
+  const msPerDay = 1000 * 60 * 60 * 24;
   const msPerMonth = msPerDay * 30;
-  const days       = Math.ceil((new Date(checkOutDate) - new Date(checkInDate)) / msPerDay);
-  const months     = Math.max(1, Math.ceil(days / 30));
-  const rent       = pricePerMonth * months;
+  const days = Math.ceil((new Date(checkOutDate) - new Date(checkInDate)) / msPerDay);
+  const months = Math.max(1, Math.ceil(days / 30));
+  const rent = pricePerMonth * months;
   return { months, rent, totalAmount: rent + securityDeposit };
 }
 
@@ -66,12 +66,12 @@ async function createBooking({ tenantId, propertyId, checkInDate, checkOutDate, 
 
   const booking = await Booking.create({
     tenantId,
-    ownerId:         listing.owner._id,
-    propertyId:      listing._id,
-    checkInDate:     new Date(checkInDate),
-    checkOutDate:    new Date(checkOutDate),
+    ownerId: listing.owner._id,
+    propertyId: listing._id,
+    checkInDate: new Date(checkInDate),
+    checkOutDate: new Date(checkOutDate),
     numberOfGuests,
-    pricePerMonth:   listing.price,
+    pricePerMonth: listing.price,
     securityDeposit: listing.securityDeposit || 0,
     totalAmount,
   });
@@ -137,8 +137,8 @@ async function cancelBooking(bookingId, userId, role) {
   if (!booking) throw { statusCode: 404, message: 'Booking not found' };
 
   const isTenant = booking.tenantId.toString() === userId.toString();
-  const isOwner  = booking.ownerId.toString() === userId.toString();
-  const isAdmin  = role === 'admin';
+  const isOwner = booking.ownerId.toString() === userId.toString();
+  const isAdmin = role === 'admin';
 
   if (!isTenant && !isOwner && !isAdmin) {
     throw { statusCode: 403, message: 'Not authorized to cancel this booking' };
@@ -149,7 +149,7 @@ async function cancelBooking(bookingId, userId, role) {
 
   const cancelledBy = isTenant ? 'tenant' : isOwner ? 'owner' : 'admin';
   booking.bookingStatus = 'cancelled';
-  booking.cancelledBy   = cancelledBy;
+  booking.cancelledBy = cancelledBy;
   await booking.save();
 
   await notifSvc.notifyBookingCancelled({

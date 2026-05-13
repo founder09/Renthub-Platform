@@ -6,7 +6,7 @@
 
 $ErrorActionPreference = "Stop"
 
-$root   = "e:\Work\web_evelopment\RentHub-MERN"
+$root = "e:\Work\web_evelopment\RentHub-MERN"
 $server = "$root\server"
 $client = "$root\client"
 
