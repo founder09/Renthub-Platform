@@ -1,5 +1,6 @@
 const User         = require('../models/User');
 const ExpressError = require('../utils/ExpressError');
+const { uploadToCloudinary } = require('../config/cloudConfig');
 
 // Cookie options shared between login and register
 const cookieOptions = {
@@ -26,7 +27,17 @@ exports.register = async (req, res, next) => {
     // Default to tenant if invalid role is passed
     const assignedRole = ['tenant', 'owner'].includes(role) ? role : 'tenant';
 
-    const user = await User.create({ username, email, password, role: assignedRole });
+    let ownerProofUrl = '';
+    if (assignedRole === 'owner') {
+      if (req.file) {
+        const result = await uploadToCloudinary(req.file.buffer, 'RentHub_Users');
+        ownerProofUrl = result.secure_url;
+      } else {
+        return next(new ExpressError(400, 'Owner proof is required for owner registration'));
+      }
+    }
+
+    const user = await User.create({ username, email, password, role: assignedRole, ownerProof: ownerProofUrl });
     const token = user.generateToken();
 
     res.cookie('token', token, cookieOptions);
