@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { createListing } from '../api/listingsApi'
+import { useAuth } from '../context/AuthContext'
 import toast from 'react-hot-toast'
 
 const COLLEGES = [
@@ -14,10 +15,24 @@ const AMENITY_ICONS = { WiFi: '📶', AC: '❄️', Meals: '🍽', Laundry: '�
 
 export default function ListingNew() {
   const navigate = useNavigate()
+  const { user } = useAuth()
   const { register, handleSubmit, formState: { errors } } = useForm()
   const [submitting,      setSubmitting]      = useState(false)
   const [previews,        setPreviews]        = useState([])
   const [selectedAmenities, setSelectedAmenities] = useState([])
+
+  if (user?.role === 'owner' && !user?.isVerified) {
+    return (
+      <div className="container-main max-w-3xl text-center py-20 fade-in-up">
+        <h1 className="text-2xl font-bold mb-4" style={{ color: 'var(--danger)' }}>Account Verification Pending</h1>
+        <p style={{ color: 'var(--text-muted)' }}>
+          Your owner account is currently pending verification by an administrator.
+          You will be able to create listings once your document proof has been approved.
+        </p>
+        <Link to="/dashboard" className="btn-primary mt-6 inline-block">Go to Dashboard</Link>
+      </div>
+    )
+  }
 
   const toggleAmenity = (a) => {
     setSelectedAmenities(prev => prev.includes(a) ? prev.filter(x => x !== a) : [...prev, a])
