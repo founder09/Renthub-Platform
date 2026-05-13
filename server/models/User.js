@@ -17,6 +17,7 @@ const userSchema = new mongoose.Schema({
   role:         { type: String, enum: ['tenant', 'owner', 'admin'], default: 'tenant' },
   isVerified:   { type: Boolean, default: false },
   avatar:       { type: String, default: '' },
+  ownerProof:   { type: String, default: '' },
   savedListings: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Listing' }],
 }, { timestamps: true });
 
