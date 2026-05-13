@@ -21,6 +21,7 @@ import NotificationsPage from './pages/dashboard/NotificationsPage'
 import SubscriptionPage from './pages/dashboard/SubscriptionPage'
 import AnalyticsDashboard from './pages/dashboard/AnalyticsDashboard'
 import AIToolsPage from './pages/dashboard/AIToolsPage'
+import AdminUsersPage from './pages/dashboard/AdminUsersPage'
 import { SubscriptionProvider } from './context/SubscriptionContext'
 
 // We will conditionally render Navbar and Footer based on route or create a MainLayout
@@ -43,15 +44,29 @@ export default function App() {
           <Toaster
             position="top-right"
             toastOptions={{
-              duration: 3500,
+              duration: 4000,
               style: {
                 background: 'var(--bg-card)',
                 color: 'var(--text-primary)',
-                borderRadius: '14px',
-                border: '1px solid var(--border)',
-                boxShadow: '0 8px 30px rgba(0,0,0,0.12)',
-                fontSize: '14px',
+                borderRadius: '16px',
+                border: '1px solid var(--border-default)',
+                boxShadow: '0 20px 40px -15px rgba(0,0,0,0.2)',
+                fontSize: '14.5px',
                 fontWeight: '500',
+                padding: '16px 24px',
+                letterSpacing: '-0.01em',
+              },
+              success: {
+                iconTheme: {
+                  primary: '#10b981', // Tailwind emerald-500
+                  secondary: '#fff',
+                },
+              },
+              error: {
+                iconTheme: {
+                  primary: '#ef4444', // Tailwind red-500
+                  secondary: '#fff',
+                },
               },
             }}
           />
@@ -79,6 +94,7 @@ export default function App() {
                 <Route path="analytics"     element={<AnalyticsDashboard />} />
                 <Route path="subscription"  element={<SubscriptionPage />} />
                 <Route path="ai-tools"      element={<AIToolsPage />} />
+                <Route path="users"         element={<AdminUsersPage />} />
               </Route>
             </Route>
           </Routes>
